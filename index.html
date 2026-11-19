@@ -812,6 +812,21 @@ var GCOND = [
  ["g_imp_ins","Contraception: implant insertion",[{code:"Z30.017",label:"Encounter for initial prescription of implantable subdermal contraceptive"}]],
  ["g_imp_rem","Contraception: implant removal",[{code:"Z30.46",label:"Encounter for surveillance of implantable subdermal contraceptive"}]],
  ["g_contra_couns","Contraceptive counseling",[{code:"Z30.09",label:"Encounter for other general counseling and advice on contraception"}]],
+ ["g_endo","Endometriosis (specify site)",[{code:"N80.-",label:"Endometriosis — code by site and depth documented"}]],
+ ["g_adh","Pelvic adhesions",[{code:"N73.6",label:"Female pelvic peritoneal adhesions"}]],
+ ["g_asher","Intrauterine adhesions",[{code:"N85.6",label:"Intrauterine synechiae"}]],
+ ["g_empolyp","Endometrial polyp",[{code:"N84.0",label:"Polyp of corpus uteri"}]],
+ ["g_cxpolyp","Cervical polyp",[{code:"N84.1",label:"Polyp of cervix uteri"}]],
+ ["g_hyperpl","Endometrial hyperplasia",[{code:"N85.00",label:"Endometrial hyperplasia, unspecified (specify type if known)"}]],
+ ["g_sui","Stress urinary incontinence",[{code:"N39.3",label:"Stress incontinence (female)"}]],
+ ["g_cystocele","Cystocele",[{code:"N81.10",label:"Cystocele, unspecified"}]],
+ ["g_rectocele","Rectocele",[{code:"N81.6",label:"Rectocele"}]],
+ ["g_enterocele","Enterocele",[{code:"N81.5",label:"Vaginal enterocele"}]],
+ ["g_vault","Vaginal vault prolapse after hysterectomy",[{code:"N99.3",label:"Prolapse of vaginal vault after hysterectomy"}]],
+ ["g_missed","Missed miscarriage",[{code:"O02.1",label:"Missed abortion"}]],
+ ["g_incab","Incomplete spontaneous abortion",[{code:"O03.4",label:"Incomplete spontaneous abortion without complication"}]],
+ ["g_ectopic","Tubal ectopic pregnancy (specify side)",[{code:"O00.10-",label:"Tubal pregnancy without intrauterine pregnancy (1 right, 2 left)"}]],
+ ["g_cxinsuf","Cervical insufficiency (pregnancy)",[{code:"O34.3-",label:"Maternal care for cervical incompetence (trimester)"}]],
  ["g_other","Other condition not listed",[{code:"ICD-10",label:"Code the condition to the highest specificity documented"}]]
 ];
 /* Labor / delivery encounter diagnoses (childbirth-specific codes where they exist) */
@@ -922,7 +937,7 @@ var ENC = {
   "inpatient":[["labor","Labor / delivery"],["ip_antepartum","Antepartum (not in labor)"],["ip_postpartum","Postpartum day"],["ip_consult","Consult"]],
   "obs":[["obs","Observation care"]],
   "ed":[["ed_consult","ED consult"]],
-  "or":[["cesarean","Cesarean"],["gyn_surgery","Other GYN surgery"]]
+  "or":[["cesarean","Cesarean"],["gyn_surgery","GYN surgery"]]
 };
 
 function isOfficeLike(st){ return st==="office"||st==="tele_av"||st==="tele_ao"; }
@@ -978,6 +993,143 @@ var ADDON_SETS = {
   preventive:["venip","upt","uadip","flu","hpv","tdap","depscr","tob3","tob10"]
 };
 
+/* ---------- GYN surgery ---------- */
+var HYST_KINDS = {tlh:["58570","58571","58572","58573"], lsh:["58541","58542","58543","58544"], lavh:["58550","58552","58553","58554"]};
+var SURG = [
+ ["tlh","Total laparoscopic hysterectomy (TLH)","hyst","lap"],
+ ["lsh","Laparoscopic supracervical hysterectomy","hyst","lap"],
+ ["lavh","Laparoscopic-assisted vaginal hysterectomy (LAVH)","hyst","lap"],
+ ["vh","Vaginal hysterectomy","hyst","vag"],
+ ["tah","Total abdominal hysterectomy (with or without BSO)","fixed:58150","open"],
+ ["sah","Supracervical abdominal hysterectomy (with or without BSO)","fixed:58180","open"],
+ ["lmyo","Laparoscopic myomectomy","myo","lap"],
+ ["amyo","Abdominal myomectomy","myo","open"],
+ ["hmyo","Hysteroscopic myomectomy","fixed:58561","hsc"],
+ ["hdx","Diagnostic hysteroscopy","fixed:58555","hsc"],
+ ["hbx","Hysteroscopy with biopsy / polypectomy (± D&C)","fixed:58558","hsc"],
+ ["hlys","Hysteroscopic lysis of intrauterine adhesions","fixed:58559","hsc"],
+ ["hsep","Hysteroscopic resection of uterine septum","fixed:58560","hsc"],
+ ["hfb","Hysteroscopic removal of impacted foreign body (e.g., IUD)","fixed:58562","hsc"],
+ ["habl","Hysteroscopy with endometrial ablation","fixed:58563","hsc"],
+ ["nova","Endometrial ablation without hysteroscopy (e.g., NovaSure)","fixed:58353","hsc"],
+ ["dc","D&C, non-obstetric","fixed:58120","vag"],
+ ["sab_inc","Surgical management, incomplete miscarriage","fixed:59812","vag"],
+ ["sab_m1","Surgical management, missed miscarriage, first trimester","fixed:59820","vag"],
+ ["sab_m2","Surgical management, missed miscarriage, second trimester","fixed:59821","vag"],
+ ["ect_s","Laparoscopic ectopic: salpingectomy and/or oophorectomy","fixed:59151","lap"],
+ ["ect_c","Laparoscopic ectopic: salpingostomy (tube preserved)","fixed:59150","lap"],
+ ["ladx","Laparoscopic salpingectomy, oophorectomy, or ovarian cystectomy","fixed:58661","lap"],
+ ["lendo","Laparoscopic excision / fulguration of endometriosis or lesions","fixed:58662","lap"],
+ ["ldiag","Diagnostic laparoscopy","fixed:49320","lap"],
+ ["llys","Laparoscopic lysis of adhesions (only procedure)","fixed:58660","lap"],
+ ["ltub","Laparoscopic tubal occlusion by device (clips / rings)","fixed:58671","lap"],
+ ["xlap","Exploratory laparotomy","fixed:49000","open"],
+ ["o_bso","Salpingo-oophorectomy, open","fixed:58720","open"],
+ ["o_cyst","Ovarian cystectomy, open","fixed:58925","open"],
+ ["ckc","Cold knife cone","fixed:57520","vag"],
+ ["leepor","LEEP conization (operating room)","fixed:57522","vag"],
+ ["cerc","Cerclage, vaginal (pregnancy)","fixed:59320","vag"],
+ ["cerca","Cerclage, abdominal (pregnancy)","fixed:59325","open"],
+ ["ant","Anterior colporrhaphy (cystocele repair)","fixed:57240","vag"],
+ ["post","Posterior colporrhaphy (rectocele repair)","fixed:57250","vag"],
+ ["ap","Anterior and posterior colporrhaphy","fixed:57260","vag"],
+ ["ssf","Sacrospinous ligament fixation","fixed:57282","vag"],
+ ["usl","Uterosacral ligament suspension","fixed:57283","vag"],
+ ["lsc","Laparoscopic sacrocolpopexy","fixed:57425","lap"],
+ ["sling","Midurethral sling","fixed:57288","vag"],
+ ["cleisis","Colpocleisis","fixed:57120","vag"],
+ ["vulvd","Destruction of vulvar lesions, extensive","fixed:56515","vag"],
+ ["vagcyst","Excision of vaginal cyst or tumor","fixed:57135","vag"],
+ ["bart_or","Bartholin marsupialization (OR)","fixed:56440","vag"],
+ ["cysto","Cystoscopy (stand-alone)","fixed:52000","vag"]
+];
+function surgById(id){ for(var i=0;i<SURG.length;i++) if(SURG[i][0]===id) return SURG[i]; return null; }
+function surgCode(sg,s){
+  var k=sg[2];
+  if(k.indexOf("fixed:")===0) return k.slice(6);
+  var big=s.hystWt==="yes", to=s.hystTO==="yes";
+  if(k==="hyst"){
+    if(sg[0]==="vh"){
+      var ent=(s.surgExtras||[]).indexOf("x_enter")>=0;
+      if(ent) return big?(to?"58292":"58294"):(to?"58263":"58270");
+      return big?(to?"58291":"58290"):(to?"58262":"58260");
+    }
+    var a=HYST_KINDS[sg[0]]; return a[(big?2:0)+(to?1:0)];
+  }
+  if(k==="myo") return sg[0]==="lmyo" ? (s.myoBig==="yes"?"58546":"58545") : (s.myoBig==="yes"?"58146":"58140");
+  return "";
+}
+var SURG_X = {
+ x_lysis:{label:"Lysis of adhesions",bundled:"Adhesiolysis is bundled. If it substantially lengthened the case, consider modifier 22 with documentation."},
+ x_cysto:{label:"Cystoscopy to check bladder / ureters",bundled:"Cystoscopy to check the urinary tract during GYN surgery is bundled."},
+ x_appy:{label:"Appendectomy — appendix abnormal",code:function(lap){return lap?"44970":"44950";},clabel:"Appendectomy",note:"Appendix abnormal: ___ (finding); appendectomy performed."},
+ x_appyinc:{label:"Appendectomy — incidental (normal appendix)",bundled:"Incidental appendectomy is not separately billable."},
+ x_endo:{label:"Excision / fulguration of endometriosis",code:function(){return "58662";},clabel:"Laparoscopic excision/fulguration of lesions",note:"Endometriosis excised/fulgurated: ___ (sites).",hystflag:"58662 with a laparoscopic hysterectomy may be bundled under NCCI; confirm before billing."},
+ x_stent:{label:"Ureteral stent placed",code:function(){return "52332";},clabel:"Cystoscopy with ureteral stent",note:"Ureteral stent placed, ___ side, for ___ (indication)."},
+ x_ant:{label:"Anterior repair (cystocele)",code:function(){return "57240";},clabel:"Anterior colporrhaphy",note:"Anterior colporrhaphy for ___ (cystocele, stage)."},
+ x_post:{label:"Posterior repair (rectocele)",code:function(){return "57250";},clabel:"Posterior colporrhaphy",note:"Posterior colporrhaphy for ___ (rectocele, stage)."},
+ x_enter:{label:"Enterocele repair",note:"Enterocele repair performed for ___."},
+ x_ssf:{label:"Sacrospinous fixation",code:function(){return "57282";},clabel:"Sacrospinous ligament fixation",note:"Sacrospinous ligament fixation, ___ side."},
+ x_usl:{label:"Uterosacral suspension",code:function(){return "57283";},clabel:"Uterosacral ligament suspension",note:"Uterosacral ligament suspension performed."},
+ x_sling:{label:"Midurethral sling",code:function(){return "57288";},clabel:"Sling operation for stress incontinence",note:"Midurethral sling placed for stress urinary incontinence."},
+ x_eua:{label:"Exam under anesthesia",bundled:"Exam under anesthesia is included in the surgery."},
+ x_dc:{label:"D&C",bundled:"D&C with hysteroscopy or miscarriage management is included."},
+ x_22:{label:"Substantially harder or longer than usual",note:"Increased procedural work: ___ (reason, e.g., dense adhesions, BMI), adding ___ minutes."},
+ x_asst:{label:"Assistant surgeon (not a resident)",note:"Assistant surgeon: ___; no qualified resident available because ___."}
+};
+function surgExtraOpts(s){
+  var ids=(s.surgs||[]).map(surgById).filter(Boolean), ap={};
+  ids.forEach(function(g){ ap[g[3]]=true; ap[g[2]]=true; if(g[0]==="vh"||g[0]==="lavh") ap.vaghyst=true; });
+  var o=["x_22","x_asst"];
+  if(ap.lap||ap.open||ap.hyst){ o=["x_lysis","x_cysto","x_appy","x_appyinc","x_endo","x_stent"].concat(o); }
+  if(ap.vag||ap.vaghyst){ o=["x_ant","x_post","x_ssf","x_usl","x_sling","x_cysto"].concat(o); if(ap.vaghyst) o.unshift("x_enter"); o.push("x_eua"); }
+  if(ap.hsc){ o=["x_dc"].concat(o); }
+  var seen={}; return o.filter(function(x){ if(seen[x]) return false; seen[x]=1; return true; });
+}
+function surgery(s,R){
+  var ids=(s.surgs||[]).map(surgById).filter(Boolean);
+  if(!ids.length){ R.incomplete.push("Search and add the procedure(s)."); return; }
+  var hasHyst=ids.some(function(g){return g[2]==="hyst";}), hasMyo=ids.some(function(g){return g[2]==="myo";});
+  if(hasHyst && (!s.hystWt||!s.hystTO)) R.incomplete.push("Uterine weight and tubes/ovaries questions.");
+  if(hasMyo && !s.myoBig) R.incomplete.push("Number/weight of fibroids.");
+  var ex=(s.surgExtras||[]).filter(function(x){return x!=="none";});
+  if(!(s.surgExtras||[]).length) R.incomplete.push("Also done? Choose items or None.");
+  var resident=s.resident==="yes";
+  var anyLap=ids.some(function(g){return g[3]==="lap";});
+  var first=true;
+  ids.forEach(function(g){
+    var c=surgCode(g,s); if(!c) return;
+    var m=[]; if(!first) m.push("51"); if(first && ex.indexOf("x_22")>=0) m.push("22"); if(resident) m.push("GC");
+    R.codes.push({code:c,mods:m,label:g[1]}); first=false;
+    var line="Operative note — "+g[1]+". Indication: ___. Findings: ___.";
+    if(g[2]==="hyst"){ line+=(s.hystWt==="yes"?" Uterine weight ___ g (pathology).":"")+(s.hystTO==="yes"?" Removed: ___ (tube(s) / ovary(s), side).":""); }
+    if(g[2]==="myo") line+=" Fibroids removed: ___ (number); total weight ___ g.";
+    if(g[0]==="ladx"||g[0]==="o_bso"||g[0]==="o_cyst") line+=" Removed: ___ (structure, side).";
+    R.note.push(line);
+  });
+  // enterocele with VH is in the hysterectomy code
+  var apSel = ex.indexOf("x_ant")>=0 && ex.indexOf("x_post")>=0;
+  ex.forEach(function(x){
+    var X=SURG_X[x]; if(!X) return;
+    if(X.bundled){ R.flags.push(X.label+": "+X.bundled); return; }
+    if(x==="x_enter"){ if(!ids.some(function(g){return g[0]==="vh";})) R.flags.push("Enterocele repair: code depends on the primary procedure; ask coding."); R.note.push(X.note); return; }
+    if(x==="x_22"||x==="x_asst"){ R.note.push(X.note); if(x==="x_asst") R.flags.push("Assistant: modifier 80 (physician), 82 (teaching hospital, no qualified resident), or AS (PA/NP)."); return; }
+    if(apSel && (x==="x_ant"||x==="x_post")){ if(x==="x_ant"){ R.codes.push({code:"57260",mods:["51"],label:"Anterior and posterior colporrhaphy"}); R.note.push("Anterior and posterior colporrhaphy for ___ (cystocele / rectocele, stage)."); } return; }
+    var c=X.code(anyLap);
+    if(ids.some(function(g){return surgCode(g,s)===c;})) return;
+    R.codes.push({code:c,mods:["51"],label:X.clabel});
+    if(X.hystflag && ids.some(function(g){return g[2]==="hyst";})) R.flags.push(X.hystflag);
+    R.note.push(X.note);
+  });
+  var billed=R.codes.filter(function(c){return c.code!=="—";}).length;
+  if(billed>1) R.flags.push("Additional procedures: modifier 51 shown; some payers want 59/XS instead. Check NCCI edits.");
+  var major=ids.some(function(g){return g[2]==="hyst"||g[2]==="myo"||g[3]==="open"||["ant","post","ap","ssf","usl","lsc","sling","cleisis","lendo","ladx","ect_s","ect_c"].indexOf(g[0])>=0;});
+  if(major) R.flags.push("Decision-for-surgery visit the day before or day of a 90-day-global procedure: bill that visit with modifier 57.");
+  if(resident) R.note.push("Teaching physician: present for the key and critical portions and immediately available throughout.");
+  var g=[]; GCOND.forEach(function(c){ if((s.gconds||[]).indexOf(c[0])>=0) g=g.concat(c[2]); });
+  if(g.length) R.dx=g.concat(R.dx); else R.incomplete.push("Choose the diagnosis.");
+}
+
 /* ---------- Procedure note templates ---------- */
 var PROC_NOTE = {
   "58100":"Endometrial biopsy. Indication: ___. Findings: ___ (tissue obtained). Specimen to pathology.",
@@ -1024,11 +1176,7 @@ function compute(s){
   if(st==="office" && ADDON_SETS[e] && !(s.addons||[]).length) R.incomplete.push("Also done today? Choose items or None.");
   var resident = s.resident==="yes";
 
-  if(e==="gyn_surgery"){
-    R.scope="Surgical coding needs the operative note. Send it to coding. See the Modifiers tab (22, 51, 59/XS, 62, 80/82/AS; 57 on the decision-for-surgery visit).";
-    if(resident) R.note.push("Teaching physician: present for the key and critical portions and immediately available throughout.");
-    return R;
-  }
+  if(e==="gyn_surgery"){ surgery(s,R); return R; }
   if(e==="labor"||e==="cesarean") laborDelivery(s,R);
 
   /* Preventive */
@@ -1292,7 +1440,7 @@ function emNote(s,em){
   return L;
 }
 
-return {ADDONS:ADDONS, ADDON_SETS:ADDON_SETS, LCOND:LCOND, GCOND:GCOND, PCOND:PCOND, PPCOND:PPCOND, PROBOPTS:PROBOPTS, RISKOPTS:RISKOPTS, forcedComplication:forcedComplication, compute:compute, ENC:ENC, PROCS:PROCS, TESTS:TESTS, needsEM:needsEM, emTableKey:emTableKey, dataLevel:dataLevel, mdmLevel:mdmLevel, isOfficeLike:isOfficeLike};
+return {SURG:SURG, SURG_X:SURG_X, surgExtraOpts:surgExtraOpts, ADDONS:ADDONS, ADDON_SETS:ADDON_SETS, LCOND:LCOND, GCOND:GCOND, PCOND:PCOND, PPCOND:PPCOND, PROBOPTS:PROBOPTS, RISKOPTS:RISKOPTS, forcedComplication:forcedComplication, compute:compute, ENC:ENC, PROCS:PROCS, TESTS:TESTS, needsEM:needsEM, emTableKey:emTableKey, dataLevel:dataLevel, mdmLevel:mdmLevel, isOfficeLike:isOfficeLike};
 })();
 
 
@@ -1360,6 +1508,11 @@ var Q=[
    selected:function(){return (S.procs||[]).concat(S.tests||[]);},
    show:function(){return S.enc && (S.setting==="office"&&S.enc!=="preventive"||S.setting==="office"&&S.enc==="preventive"||["triage_home","triage_admit","obs","ip_antepartum","ed_consult"].indexOf(S.enc)>=0);}},
  {id:"addons",label:"Also done today? (choose all that apply, or None)",type:"multi",excl:"none",opts:function(){return [["none","None"]].concat((E.ADDON_SETS[S.enc]||[]).map(function(a){return [a,E.ADDONS[a].label];}));},show:function(){return S.setting==="office"&&!!E.ADDON_SETS[S.enc]&&!(S.enc==="prenatal"&&S.year==="2026"&&!S.ante2026)&&!(S.enc==="postpartum"&&S.year==="2026"&&!S.pp2026);}},
+ {id:"surgsearch",label:"Procedure(s) — search and add each one",type:"search",items:function(){return E.SURG.map(function(g){return {id:g[0],label:g[1],kind:"surgs",code:(g[2].indexOf("fixed:")===0?g[2].slice(6):"")};});},selected:function(){return S.surgs||[];},show:function(){return S.enc==="gyn_surgery";},section:"Surgery"},
+ {id:"hystWt",label:"Uterus over 250 g?",type:"radio",opts:Y,show:function(){return (S.surgs||[]).some(function(x){return ["tlh","lsh","lavh","vh"].indexOf(x)>=0;});}},
+ {id:"hystTO",label:"Tubes and/or ovaries removed?",type:"radio",opts:Y,show:function(){return (S.surgs||[]).some(function(x){return ["tlh","lsh","lavh","vh"].indexOf(x)>=0;});}},
+ {id:"myoBig",label:"5 or more fibroids, or total over 250 g?",type:"radio",opts:Y,show:function(){return (S.surgs||[]).some(function(x){return x==="lmyo"||x==="amyo";});}},
+ {id:"surgExtras",label:"Also done? (choose all that apply, or None)",type:"multi",excl:"none",opts:function(){return [["none","None"]].concat(E.surgExtraOpts(S).map(function(x){return [x,E.SURG_X[x].label];}));},show:function(){return S.enc==="gyn_surgery"&&(S.surgs||[]).length>0;}},
  {id:"sepEM",label:"Was a separate problem also evaluated and managed (beyond deciding to do the procedure)?",type:"radio",opts:function(){return [["yes","Yes — bill a visit too (-25)"],["no","No — procedure only"]];},show:function(){return S.setting==="office"&&(S.procs||[]).length>0&&(S.enc==="problem"||S.enc==="prenatal"||S.enc==="postpartum");}},
  {id:"sepProblem",label:function(){return (S.procs||[]).length?"Was a separate problem also evaluated and managed (beyond the exam and procedure)?":"Was a separate problem also evaluated and managed (beyond the exam)?";},type:"radio",opts:function(){return [["yes","Yes — bill a visit too (-25)"],["no","No"]];},show:function(){return S.enc==="preventive";}},
  /* MDM */
@@ -1387,7 +1540,7 @@ var Q=[
  {id:"complication",label:function(){return S.enc==="postpartum"?"Postpartum problem addressed?":"Pregnancy problem addressed?";},type:"radio",opts:Y,show:function(){return !E.forcedComplication(S)&&(pregCtx()||S.enc==="postpartum");},section:"Diagnosis"},
  {id:"conds",label:"Condition",type:"csearch",list:function(){return E.PCOND;},show:function(){return pregCtx()&&(E.forcedComplication(S)||S.complication==="yes");}},
  {id:"ppconds",label:"Condition",type:"csearch",list:function(){return E.PPCOND;},show:function(){return S.enc==="postpartum"&&(E.forcedComplication(S)||S.complication==="yes");}},
- {id:"gconds",label:"Diagnosis",type:"csearch",list:function(){return E.GCOND;},show:function(){return S.enc==="problem"||S.enc==="procedure"||((S.enc==="obs"||S.enc==="ed_consult"||S.enc==="ip_consult")&&S.pregnant==="no");},section:"Diagnosis"},
+ {id:"gconds",label:"Diagnosis",type:"csearch",list:function(){return E.GCOND;},show:function(){return S.enc==="problem"||S.enc==="gyn_surgery"||S.enc==="procedure"||((S.enc==="obs"||S.enc==="ed_consult"||S.enc==="ip_consult")&&S.pregnant==="no");},section:"Diagnosis"},
  {id:"firstPreg",label:"First pregnancy?",type:"radio",opts:Y,show:function(){return S.enc==="prenatal"&&S.complication==="no";}},
  {id:"resident",label:"Resident involved?",type:"radio",opts:Y,show:function(){return !!S.enc;}}
 ];
@@ -1416,7 +1569,7 @@ function build(){
     } else if(q.type==="text"){
       body='<input type="text" data-t="'+q.id+'" value="'+esc(S[q.id]||"")+'" placeholder="'+esc(q.placeholder||"")+'"><div class="phiwarn hidden" data-pw="'+q.id+'">Remove names, dates, numbers.</div>';
     } else if(q.type==="search"||q.type==="csearch"){
-      var chips = q.type==="search" ? q.selected().map(function(id){var it=PROCLIST.filter(function(x){return x.id===id;})[0];return it?'<span class="chip">'+esc(it.label)+' <b>'+esc(id)+'</b><button type="button" data-rm="'+esc(id)+'" data-k="'+it.kind+'">×</button></span>':"";}).join("")
+      var chips = q.type==="search" ? q.selected().map(function(id){var it=q.items().filter(function(x){return x.id===id;})[0];var cd=it&&(it.code!==undefined?it.code:it.id);return it?'<span class="chip">'+esc(it.label)+(cd?' <b>'+esc(cd)+'</b>':'')+'<button type="button" data-rm="'+esc(id)+'" data-k="'+it.kind+'">×</button></span>':"";}).join("")
         : (S[q.id]||[]).map(function(id){var it=q.list().filter(function(c){return c[0]===id;})[0];return it?'<span class="chip">'+esc(it[1])+'<button type="button" data-rmc="'+esc(id)+'" data-k="'+q.id+'">×</button></span>':"";}).join("");
       body='<div class="chips">'+chips+'</div><div class="srch"><input type="search" autocomplete="off" placeholder="Type to search…" data-s="'+q.id+'"><div class="sres hidden" data-sr="'+q.id+'"></div></div>';
     } else if(q.type==="data"){
@@ -1470,14 +1623,15 @@ function bind(){
     var qid=inp.dataset.s, q=Q.filter(function(x){return x.id===qid;})[0], box=root.querySelector('[data-sr="'+qid+'"]');
     function render(){
       var t=inp.value.trim().toLowerCase(); var res;
-      if(q.type==="search"){ var sel=q.selected(); res=q.items().filter(function(x){return sel.indexOf(x.id)<0 && (!t || x.label.toLowerCase().indexOf(t)>=0 || x.id.indexOf(t)===0);}).slice(0,8).map(function(x){return '<button type="button" data-add="'+x.id+'" data-k="'+x.kind+'">'+esc(x.label)+' <b>'+x.id+'</b></button>';}); }
+      if(q.type==="search"){ var sel=q.selected(); res=q.items().filter(function(x){var cd=(x.code!==undefined?x.code:x.id);return sel.indexOf(x.id)<0 && (!t || x.label.toLowerCase().indexOf(t)>=0 || (cd&&cd.indexOf(t)===0));}).slice(0,10).map(function(x){var cd=(x.code!==undefined?x.code:x.id);return '<button type="button" data-add="'+x.id+'" data-k="'+x.kind+'">'+esc(x.label)+(cd?' <b>'+cd+'</b>':'')+'</button>';}); }
       else { var cur=S[qid]||[]; res=q.list().filter(function(c){return cur.indexOf(c[0])<0 && (!t || c[1].toLowerCase().indexOf(t)>=0);}).slice(0,8).map(function(c){return '<button type="button" data-addc="'+c[0]+'">'+esc(c[1])+'</button>';}); }
       box.innerHTML = res.length? res.join("") : '<div class="hint" style="padding:8px">No match</div>';
       box.classList.remove("hidden");
       box.querySelectorAll("button[data-add]").forEach(function(b){b.addEventListener("mousedown",function(ev){ev.preventDefault();var k=b.dataset.k;S[k]=(S[k]||[]).concat([b.dataset.add]);build();});});
       box.querySelectorAll("button[data-addc]").forEach(function(b){b.addEventListener("mousedown",function(ev){ev.preventDefault();S[qid]=(S[qid]||[]).concat([b.dataset.addc]);build();});});
     }
-    inp.addEventListener("input",render); inp.addEventListener("focus",render);
+    inp.addEventListener("input",render);
+    inp.addEventListener("focus",function(){ render(); if(window.innerWidth<900){ setTimeout(function(){ var y=inp.getBoundingClientRect().top+window.pageYOffset-70; window.scrollTo({top:y,behavior:"smooth"}); },60); } });
     inp.addEventListener("blur",function(){setTimeout(function(){box.classList.add("hidden");},150);});
   });
 }
