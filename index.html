@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1b3456">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Coding Aid">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<title>Coding Aid</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1b3456; --teal:#4ba69b; --teal-l:#e8f4f2; --teal-d:#2f7d73;
+  --ink:#1d2433; --muted:#5b6475; --line:#d9dee6; --bg:#f6f8fa; --card:#fff;
+  --warn:#8a1c1c; --warn-bg:#fdecec; --amber:#8a5a00; --amber-bg:#fff6e0; --hl:#fff1b8;
+  --ok:#1f6b3a; --ok-bg:#e7f5ec;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Source Sans 3",system-ui,sans-serif;color:var(--ink);background:var(--bg);font-size:16px;line-height:1.5}
+header{background:#fff;border-bottom:3px solid var(--teal);padding:14px 24px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+header img{height:88px;width:auto;margin:-8px 0}
+header .titles{border-left:1px solid var(--line);padding-left:20px}
+header h1{font-family:"Source Serif 4",Georgia,serif;font-size:22px;margin:0;color:var(--navy)}
+header .sub{color:var(--muted);font-size:13px}
+.aidbadge{margin-left:auto;background:var(--warn);color:#fff;font-weight:700;letter-spacing:.06em;padding:8px 14px;border-radius:4px;font-size:14px;text-align:center}
+.banner{background:var(--warn-bg);border-bottom:2px solid var(--warn);color:var(--warn);padding:10px 24px;font-size:14px}
+main{max-width:980px;margin:0 auto;padding:20px 24px 60px}
+nav.tabs{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:18px;border-bottom:1px solid var(--line)}
+nav.tabs button{background:none;border:none;padding:10px 14px;font:inherit;font-size:15px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px}
+nav.tabs button.active{color:var(--navy);border-bottom-color:var(--teal)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin-bottom:16px}
+.card h2{font-size:18px;margin:0 0 12px;color:var(--navy)}
+.card h3{font-size:15px;margin:16px 0 8px;color:var(--navy)}
+.steps{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.steps div{flex:1;min-width:150px;padding:8px 12px;border-radius:6px;background:#eef1f5;color:var(--muted);font-weight:600;font-size:14px}
+.steps div.on{background:var(--navy);color:#fff}
+.steps div.done{background:var(--teal-l);color:var(--teal-d)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px 16px}
+label{display:block;font-weight:700;font-size:14px;color:var(--navy);margin-bottom:5px}
+input,select,textarea{width:100%;font:inherit;padding:10px 12px;border:1px solid #b9c2cf;border-radius:6px;background:#fff;color:var(--ink)}
+textarea{resize:vertical}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--teal);border-color:var(--teal)}
+.hint{font-size:13px;color:var(--muted);margin-top:4px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font:inherit;font-weight:700;padding:11px 20px;border-radius:6px;border:1px solid var(--navy);background:var(--navy);color:#fff;cursor:pointer;text-decoration:none}
+.btn.big{font-size:17px;padding:13px 26px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.secondary{background:#fff;color:var(--navy)}
+.btn.teal{background:var(--teal-d);border-color:var(--teal-d)}
+.btn.link{background:none;border:none;color:var(--teal-d);padding:6px 4px;font-weight:600}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700}
+.pill.r26{background:#e9edf5;color:var(--navy)} .pill.r27{background:var(--teal-l);color:var(--teal-d)}
+.phi-alert{display:none;background:var(--warn-bg);border:1px solid var(--warn);color:var(--warn);border-radius:6px;padding:10px 12px;margin-top:10px;font-size:14px}
+.phi-alert code{background:#fff;padding:0 4px;border-radius:3px}
+#status{font-size:15px;color:var(--muted)}
+.spinner{width:18px;height:18px;border:2px solid var(--line);border-top-color:var(--teal);border-radius:50%;animation:spin .8s linear infinite;display:inline-block;vertical-align:middle;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hidden{display:none!important}
+details.fam{margin-top:10px;font-size:14px}
+details.fam summary{cursor:pointer;color:var(--teal-d);font-weight:600}
+details.fam ul{margin:6px 0 0 18px;padding:0}
+
+/* Questions */
+.q{padding:14px 0;border-bottom:1px solid var(--line)}
+.q:last-child{border-bottom:none}
+.q .qt{font-weight:700;font-size:16px;color:var(--ink)}
+.q .qw{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{border:1.5px solid #b9c2cf;background:#fff;border-radius:999px;padding:7px 16px;font:inherit;font-size:15px;cursor:pointer;color:var(--ink)}
+.opt.sel{background:var(--navy);border-color:var(--navy);color:#fff}
+.q input{max-width:260px}
+
+/* Answer */
+.answer{border:2px solid var(--navy);border-radius:12px;overflow:hidden;margin-bottom:16px;background:#fff}
+.answer .head{background:var(--navy);color:#fff;padding:10px 20px;font-weight:700;letter-spacing:.05em;font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.answer .body{padding:18px 20px}
+.codeline{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;padding:10px 0;border-bottom:1px solid var(--line)}
+.codeline:last-child{border-bottom:none}
+.bigcode{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:34px;font-weight:800;color:var(--navy);letter-spacing:.01em}
+.mod{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:20px;font-weight:700;background:var(--teal-l);color:var(--teal-d);padding:2px 10px;border-radius:6px}
+.codelabel{font-size:16px;color:var(--ink)}
+.dx{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.dx span{background:#f1f3f7;border-radius:6px;padding:5px 10px;font-size:14px}
+.dx b{font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--navy);margin-right:6px}
+.why{margin-top:12px;font-size:15px;color:var(--ink);background:#f6f8fa;border-radius:8px;padding:10px 14px}
+.conf{font-size:12px;font-weight:700;padding:2px 8px;border-radius:4px}
+.conf.high{background:var(--ok-bg);color:var(--ok)}.conf.medium{background:var(--amber-bg);color:var(--amber)}.conf.low{background:var(--warn-bg);color:var(--warn)}
+
+.notebox{white-space:pre-wrap;font-family:"Source Sans 3",system-ui,sans-serif;font-size:16px;line-height:1.55;background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px 18px}
+.notebox mark{background:var(--hl);color:#6b4b00;font-weight:700;padding:0 3px;border-radius:3px}
+.need{background:var(--amber-bg);border:1px solid #e8c77a;border-radius:8px;padding:10px 14px;margin-bottom:12px}
+.need h3{margin:0 0 6px;color:var(--amber);font-size:15px}
+.need ul{margin:0 0 0 18px;padding:0}
+.notewarn{font-size:13px;color:var(--muted);margin-top:8px}
+details.more{margin-top:6px}
+details.more summary{cursor:pointer;font-weight:700;color:var(--navy);font-size:15px;padding:6px 0}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);background:#fafbfc}
+td.code,.code{font-weight:700;font-family:ui-monospace,Menlo,Consolas,monospace;white-space:nowrap;color:var(--navy)}
+.st{font-weight:700;font-size:12px;padding:2px 8px;border-radius:4px;white-space:nowrap}
+.st.documented{background:var(--ok-bg);color:var(--ok)}.st.missing{background:var(--warn-bg);color:var(--warn)}.st.unclear{background:var(--amber-bg);color:var(--amber)}
+.flag{background:var(--amber-bg);border-left:4px solid var(--amber);padding:8px 12px;margin:6px 0;border-radius:0 4px 4px 0;font-size:14px}
+
+.gate{position:fixed;inset:0;background:rgba(18,30,50,.72);display:flex;align-items:center;justify-content:center;z-index:50;padding:20px}
+.gate .box{background:#fff;max-width:620px;border-radius:10px;padding:24px 26px;border-top:6px solid var(--warn)}
+.gate h2{margin:0 0 10px;color:var(--warn);font-size:20px}
+.gate li{margin-bottom:8px;font-size:15px}
+.gate label.chk{display:flex;gap:10px;align-items:flex-start;font-weight:600;color:var(--ink);font-size:14px;margin:14px 0}
+.gate input[type=checkbox]{width:18px;height:18px;margin-top:2px;flex:none}
+.ref td,.ref th{font-size:13.5px}
+.ref p,.ref li{font-size:15px}
+.src{font-size:12.5px;color:var(--muted)} .src a{color:var(--teal-d)}
+footer{max-width:980px;margin:0 auto;padding:0 24px 30px;font-size:12px;color:var(--muted)}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:9px 16px;border-radius:5px;font-size:14px;z-index:60}
+@media (max-width:640px){
+  header{padding:8px 14px;gap:8px;flex-wrap:nowrap}
+  header img{height:44px;margin:0}
+  header .titles{display:none}
+  .aidbadge{margin-left:auto;font-size:11px;padding:5px 8px;letter-spacing:.03em}
+  .aidbadge span{font-size:10px!important}
+  .banner{padding:6px 14px;font-size:12.5px}
+  main{padding:12px 14px 40px}
+  nav.tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:12px}
+  nav.tabs button{white-space:nowrap;padding:8px 10px;font-size:14px}
+  .steps{flex-wrap:nowrap;gap:4px;margin-bottom:10px}
+  .steps div{min-width:0;padding:6px 8px;font-size:12px;text-align:center}
+  .card{padding:14px}
+  .answer .body{padding:14px}
+  .bigcode{font-size:30px}
+  .btn.big{width:100%}
+  .row .btn{flex:1 1 auto}
+}
+
+.layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:18px;align-items:start}
+.rcol{position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto}
+main{max-width:1240px}
+footer{max-width:1240px}
+.secthead{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--teal-d);margin:18px 0 2px;padding-top:12px;border-top:2px solid var(--teal-l)}
+.secthead:first-child{margin-top:0;border-top:none;padding-top:0}
+.opts3{display:grid;gap:6px}
+.opt3{text-align:left;border:1.5px solid #c5ccd7;background:#fff;border-radius:8px;padding:8px 12px;font:inherit;cursor:pointer;color:var(--ink);display:flex;gap:10px;align-items:baseline}
+.opt3 b{min-width:86px;color:var(--navy)} .opt3 span{font-size:14px;color:var(--muted)}
+.opt3.sel{border-color:var(--navy);background:#eef2f8;box-shadow:inset 4px 0 0 var(--navy)}
+.opt3.sel span{color:var(--ink)}
+.chklist{display:grid;gap:4px;margin-top:4px}
+label.chk{display:flex;gap:8px;align-items:flex-start;font-weight:400;font-size:15px;color:var(--ink);margin:0;cursor:pointer}
+label.chk input{width:18px;height:18px;margin-top:3px;flex:none}
+details summary{cursor:pointer;color:var(--teal-d);font-weight:600;font-size:14px}
+.num{max-width:140px}
+.num.sm{max-width:80px;padding:6px 8px}
+.datagrid{display:grid;gap:6px;margin-bottom:6px}
+label.nrow{display:flex;gap:10px;align-items:center;font-weight:400;font-size:15px;color:var(--ink);margin:0}
+.incomplete{background:#f3f6fa;border-radius:8px;padding:8px 12px;font-size:14px;margin-bottom:8px;color:var(--navy)}
+.incomplete ul{margin:4px 0 0 18px;padding:0}
+.sublbl{font-weight:800;color:var(--navy);font-size:12.5px;letter-spacing:.05em;margin-top:12px}
+.sublbl.amber{color:var(--amber)}
+.addwrap{border-top:1px dashed var(--line);margin-top:10px;padding-top:4px}
+.mod.units{background:#f1f3f7;color:var(--navy)}
+.phiwarn{color:var(--warn);font-size:13px;margin-top:4px}
+.answer .body .bigcode{font-size:30px}
+.nextwrap{margin-top:12px;border:1.5px solid #bfe0db;background:var(--teal-l);border-radius:8px;padding:10px 14px}
+.nextwrap ul{margin:0 0 0 18px;padding:0;font-size:14.5px}
+.nextwrap li{margin-bottom:4px}
+.nextwrap li.sub{list-style:none;margin-left:-4px}
+.mbar{display:none}
+@media (max-width:900px){.layout{grid-template-columns:1fr}.rcol{position:static;max-height:none}
+ .mbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--navy);color:#fff;padding:10px 16px;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 -2px 8px rgba(0,0,0,.2)}
+ .mbar b{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:20px}
+ .mbar button{background:#fff;color:var(--navy);border:none;border-radius:6px;padding:8px 12px;font:inherit;font-weight:700}
+ main{padding-bottom:80px}}
+#gateBtn{opacity:.55}
+.gate:has(#gateChk:checked) #gateBtn{opacity:1}
+.nojs{margin-top:12px;font-size:13.5px;color:var(--warn);background:var(--warn-bg);border-radius:6px;padding:8px 10px}
+.gatemsg{margin-top:8px;font-size:14px;color:var(--warn);font-weight:600}
+
+.picks{display:grid;gap:5px}
+.pick{display:flex;justify-content:space-between;align-items:center;gap:10px;text-align:left;border:1.5px solid #c5ccd7;background:#fff;border-radius:8px;padding:8px 12px;font:inherit;font-size:15px;cursor:pointer;color:var(--ink)}
+.pick.sel{border-color:var(--navy);background:#eef2f8;box-shadow:inset 4px 0 0 var(--navy)}
+.lv{font-style:normal;font-size:11px;font-weight:800;padding:2px 7px;border-radius:10px;flex:none}
+.lv-straightforward{background:#eef1f5;color:#5b6475}.lv-low{background:#e3eefc;color:#1d4f91}.lv-moderate{background:var(--teal-l);color:var(--teal-d)}.lv-high{background:#fbe7e7;color:var(--warn)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+.chip{background:#eef2f8;border:1px solid #c9d3e2;border-radius:16px;padding:4px 6px 4px 12px;font-size:14px;display:inline-flex;align-items:center;gap:6px}
+.chip b{font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--navy);font-size:12px}
+.chip button{border:none;background:none;font-size:18px;line-height:1;cursor:pointer;color:var(--muted);padding:0 4px}
+.srch{position:relative}
+.sres{position:absolute;left:0;right:0;top:100%;z-index:20;background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.12);max-height:300px;overflow:auto}
+.sres button{display:flex;justify-content:space-between;gap:10px;width:100%;text-align:left;border:none;border-bottom:1px solid #eef1f5;background:#fff;padding:10px 12px;font:inherit;font-size:15px;cursor:pointer}
+.sres button:hover{background:#f3f6fa}
+.sres button b{font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--navy);font-size:13px}
+.dgrid{display:grid;gap:8px;margin-top:8px}
+.dl2{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;font-size:14.5px}
+.cnt{display:flex;gap:4px}
+.opt.cnum{min-width:44px;padding:6px 10px;text-align:center}
+.dhint{font-size:13.5px;color:var(--muted);margin-bottom:4px}
+.dhint.on{color:var(--teal-d);font-weight:700}
+details.dbox summary{font-size:14.5px}
+label.dl{display:grid;grid-template-columns:170px 1fr;align-items:center;gap:10px;font-weight:600;font-size:14px;color:var(--ink);margin:0}
+.dchk{display:grid;gap:6px;margin-top:10px}
+.dc{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.dc input.sm{max-width:260px;padding:6px 8px}
+.q .qt{font-size:15px}
+.q{padding:10px 0}
+.whyline{font-size:14px;color:var(--muted);margin-top:8px}
+.writecard{border:2px solid var(--teal-d)}
+.writecard h2{color:var(--teal-d)}
+.notebox{font-size:15.5px}
+.notebox mark{background:var(--hl);color:#6b4b00;font-weight:800;padding:0 4px;border-radius:3px}
+.nh{color:#8a93a3;font-size:13px}
+.nextwrap{margin-top:12px;border:1.5px solid #bfe0db;background:var(--teal-l);border-radius:8px;padding:10px 14px;font-size:14.5px}
+.nexthead{font-weight:800;color:var(--teal-d);margin-bottom:4px}
+.nextwrap ul{margin:2px 0 0 18px;padding:0}.nextwrap li{margin-bottom:3px}
+.nl{margin:2px 0}
+.flagbox{margin-top:10px}
+.flag{font-size:13.5px;padding:6px 10px}
+.incomplete{font-size:13.5px}
+.answer .body{padding:14px 18px}
+.codeline{padding:6px 0}
+.dx{margin-top:4px}
+@media (max-width:640px){label.dl{grid-template-columns:1fr;gap:4px}}
+.gate{overflow-y:auto;-webkit-overflow-scrolling:touch;align-items:flex-start}
+.gate .box{margin:auto;width:100%}
+.gate ul{padding-left:20px;margin:8px 0}
+.gate label.chk{font-size:16px}
+#gateBtn{width:100%;padding:13px}
+@media (max-width:640px){
+  .gate{padding:16px}
+  .gate .box{padding:18px 18px}
+  .gate li{font-size:15px}
+  header .aidbadge{font-size:10px;padding:5px 7px}
+  .card{padding:12px 12px}
+  .q{padding:8px 0}
+  .opts{gap:6px}
+  .opt{padding:7px 12px;font-size:14.5px}
+  .pick{padding:9px 10px;font-size:14.5px}
+  .grid{grid-template-columns:1fr 1fr;gap:10px}
+  .grid > div:first-child{grid-column:1 / -1}
+  input,select{font-size:16px}
+  .answer .head{font-size:11px;padding:8px 14px}
+  .answer .body{padding:12px 14px}
+  .bigcode{font-size:26px}
+  .mod{font-size:16px}
+  .codelabel{font-size:14px;flex-basis:100%}
+  .dx span{font-size:13px}
+  .writecard h2{font-size:17px}
+  .notebox{padding:12px;font-size:15px}
+  .row .btn{padding:10px 12px;font-size:15px}
+  .nextwrap{font-size:14px}
+  footer{padding-bottom:90px}
+}
+@media (max-width:640px){ .banner{display:none} }
+
+/* ===== Soft theme ===== */
+body{background:#f6f8fb}
+header{border-bottom:2px solid #cfe9e5}
+.aidbadge{background:#fbeeee;color:#8a2a2a;border:1px solid #efcfcf;border-radius:10px;letter-spacing:.04em}
+.aidbadge span{color:#9a4a4a}
+.banner{background:#fdf5f4;border-bottom:1px solid #f0dcda;color:#7d3030}
+nav.tabs{border-bottom:1px solid #e6eaf0}
+nav.tabs button{border-radius:8px 8px 0 0}
+nav.tabs button.active{border-bottom-color:var(--teal);color:var(--navy)}
+.card{border:1px solid #e6eaf0;border-radius:14px;box-shadow:0 1px 6px rgba(27,52,86,.05)}
+input,select,textarea{border-radius:9px;border-color:#d2d9e3}
+.opt{border-color:#d2d9e3}
+.opt.sel{background:#2b4a73;border-color:#2b4a73}
+.pick{border-radius:11px;border-color:#dde2ea}
+.pick.sel{background:#eef3f9;border-color:#2b4a73;box-shadow:inset 4px 0 0 #2b4a73}
+.secthead{color:var(--teal-d)}
+.answer{border:1.5px solid #2b4a73;border-radius:14px;box-shadow:0 2px 10px rgba(27,52,86,.07)}
+.answer .head{background:linear-gradient(90deg,#1f3a60,#2b4a73)}
+.mod{border-radius:8px}
+.dx span{border-radius:8px;background:#f2f4f8}
+.incomplete{background:#f1f5fa;border-radius:10px}
+.writecard{border:1.5px solid var(--teal);border-radius:14px}
+.notebox{border-radius:10px;border-color:#e3e8ef}
+.nextwrap{border-radius:12px;border-color:#cfe9e5}
+.flag{border-radius:0 8px 8px 0}
+.btn{border-radius:10px}
+.chip{border-radius:999px}
+.sres{border-radius:10px}
+.gate .box{border-radius:16px;border-top:5px solid #c95c5c}
+.gate h2{color:#8a2a2a}
+#gateBtn{border-radius:10px}
+.mbar{border-radius:14px 14px 0 0;background:#24426a}
+.mbar button{border-radius:8px}
+.toast{border-radius:10px}
+.seg{display:flex;background:#eef1f6;border-radius:11px;padding:3px;gap:3px}
+.seg button{flex:1;border:none;background:transparent;border-radius:9px;padding:9px 6px;font:inherit;font-size:14px;font-weight:600;color:#4a5568;cursor:pointer;line-height:1.2}
+.seg button.sel{background:#fff;color:var(--navy);box-shadow:0 1px 4px rgba(27,52,86,.15)}
+#rulesetTag{margin-top:6px}
+.infobox{background:#f1f5fa;border-radius:10px;padding:10px 12px;font-size:14px;color:var(--navy)}
+.linkbtn{border:none;background:none;padding:0;font:inherit;color:var(--teal-d);font-weight:700;text-decoration:underline;cursor:pointer}
+header{padding-top:max(14px, env(safe-area-inset-top))}
+body{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+@media (max-width:900px){ .mbar{padding-bottom:max(10px, env(safe-area-inset-bottom))} header{padding-top:max(8px, env(safe-area-inset-top))} }
+</style>
+</head>
+<body>
+<div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+  <div class="box">
+    <h2 id="gateTitle">Coding aid only</h2>
+    <ul>
+      <li>Not an official Holy Name billing application.</li>
+      <li><strong>No PHI</strong>: no names, dates of birth, MRNs, or other identifiers.</li>
+      <li>Verify every code and note before use.</li>
+    </ul>
+    <label class="chk"><input type="checkbox" id="gateChk"> I understand</label>
+    <button class="btn" id="gateBtn" type="button">Continue</button>
+    <div class="nojs" id="nojs"><strong>Not responding?</strong> This viewer can't run the app. Open it in Safari or Chrome.</div>
+    <div class="gatemsg hidden" id="gateMsg">Check “I understand” first.</div>
+  </div>
+</div>
+
+<header>
+  <img alt="Holy Name Women's &amp; Children's Health" src="data:image/png;base64,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">
+  <div class="titles">
+    <h1>OB/GYN Coding Aid</h1>
+    <div class="sub">Guided code selection and documentation support · CPT 2026 and CPT 2027</div>
+  </div>
+  <div class="aidbadge">CODING AID ONLY<br><span style="font-weight:600;font-size:12px;letter-spacing:.03em">NOT AN OFFICIAL BILLING APP · NO PHI</span></div>
+</header>
+<div class="banner" role="note"><strong>Aid only — not an official billing application.</strong> Do not enter PHI. Suggestions require physician verification and certified coding review before claim submission.</div>
+
+<main>
+  <nav class="tabs" role="tablist">
+    <button class="active" data-tab="encounter" role="tab">Code an encounter</button>
+    <button data-tab="em" role="tab">E/M reference</button>
+    <button data-tab="reference" role="tab">2027 maternity reference</button>
+    <button data-tab="modifiers" role="tab">Modifiers &amp; teaching physician</button>
+    <button data-tab="procedures" role="tab">Preventive &amp; office procedures</button>
+  </nav>
+  <section id="tab-encounter">
+    <div class="layout">
+      <div class="qcol">
+        <div class="card">
+          <div class="grid">
+            <div>
+              <label>Date of service</label>
+              <div class="seg" id="yearSeg" role="group" aria-label="Date of service">
+                <button type="button" data-y="2026">Before Jan 1, 2027</button>
+                <button type="button" data-y="2027">Jan 1, 2027 or later</button>
+              </div>
+              <div class="hint" id="rulesetTag"></div>
+            </div>
+            <div>
+              <label for="setting">Setting</label>
+              <select id="setting">
+                <option value="office">Office</option>
+                <option value="tele_av">Telehealth (video)</option>
+                <option value="tele_ao">Telehealth (phone only)</option>
+                <option value="triage">L&amp;D triage</option>
+                <option value="inpatient">L&amp;D / inpatient</option>
+                <option value="obs">Observation</option>
+                <option value="ed">Emergency department</option>
+                <option value="or">Operating room</option>
+              </select>
+            </div>
+            <div>
+              <label for="payer">Insurance</label>
+              <select id="payer">
+                <option value="Commercial">Commercial</option>
+                <option value="Medicare">Medicare</option>
+                <option value="Medicaid (NJ FamilyCare / Medicaid MCO)">Medicaid</option>
+                <option value="Unknown">Unknown</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div id="questions"></div>
+      </div>
+      <div class="rcol" id="rcol">
+        <div class="answer" id="answer">
+          <div class="head"><span>BILL <span id="resYear"></span></span><span>VERIFY BEFORE BILLING</span></div>
+          <div class="body">
+            <div id="incomplete" class="incomplete hidden"></div>
+            <div id="scope" class="hidden"></div>
+            <div id="codeLines"></div>
+            <div class="dx" id="dxList"></div>
+            <div class="whyline" id="why"></div>
+            <div id="addWrap" class="hidden addwrap"><div class="sublbl amber">ALSO, ONLY IF DONE</div><div id="addList"></div></div>
+          </div>
+        </div>
+        <div class="card writecard" id="noteCard">
+          <h2>Minimum to document</h2>
+          <div class="hint" style="margin:-6px 0 10px">Required to support the codes above. Fill each blank with what was actually done.</div>
+          <div class="notebox" id="noteView"></div>
+          <textarea id="draftNote" rows="12" class="hidden"></textarea>
+          <div class="row" style="margin-top:12px">
+            <button class="btn teal" id="copyNoteBtn">Copy note</button>
+            <button class="btn secondary" id="editBtn">Edit</button>
+            <button class="btn secondary" id="copyCodesBtn">Copy codes</button>
+            <a class="btn secondary" id="mailBtn" href="#" target="_blank" rel="noopener">Email</a>
+          </div>
+        </div>
+        <div class="nextwrap hidden" id="nextWrap">
+          <div class="nexthead">Next level: <span class="code" id="nextCode"></span> <span class="hint">— only if actually done</span></div>
+          <div id="nextBody"></div>
+        </div>
+        <div id="flagsWrap" class="hidden flagbox"><div id="flagsList"></div><button class="btn link hidden" id="moreFlags">More</button></div>
+        <button class="btn secondary" id="resetBtn" style="width:100%;margin-top:12px">New encounter</button>
+      </div>
+    </div>
+  </section>
+  <section id="tab-em" class="hidden">
+    <div class="card ref">
+      <h2>E/M code selection: medical decision making (MDM) or total time</h2>
+      <p>Office/outpatient, hospital inpatient/observation, consultation, and home visits are leveled by MDM or by total physician/QHP time on the date of the encounter, whichever is more favorable and documented. History and examination are performed as medically appropriate but do not determine the level. ED visits (99281–99285) are leveled by MDM only.</p>
+      <h3>Levels of MDM (two of three elements must be met or exceeded)</h3>
+      <table><thead><tr><th>Level</th><th>Office codes</th><th>Number and complexity of problems addressed</th><th>Amount/complexity of data reviewed and analyzed</th><th>Risk of patient management</th></tr></thead><tbody>
+        <tr><td><strong>Straightforward</strong></td><td class="code">99202 / 99212</td><td>1 self-limited or minor problem</td><td>Minimal or none</td><td>Minimal (e.g., rest, superficial dressings)</td></tr>
+        <tr><td><strong>Low</strong></td><td class="code">99203 / 99213</td><td>2+ self-limited/minor problems; or 1 stable chronic illness; or 1 acute uncomplicated illness/injury; or 1 stable acute illness; or 1 acute uncomplicated illness/injury requiring hospital inpatient/observation care</td><td>Limited — 1 of 2 categories:<br>Cat 1: any 2 of review of prior external notes (each unique source); review of result of each unique test; ordering of each unique test<br>Cat 2: assessment requiring an independent historian</td><td>Low (e.g., OTC drugs, minor surgery without risk factors)</td></tr>
+        <tr><td><strong>Moderate</strong></td><td class="code">99204 / 99214</td><td>1+ chronic illness with exacerbation, progression, or side effects of treatment; or 2+ stable chronic illnesses; or 1 undiagnosed new problem with uncertain prognosis; or 1 acute illness with systemic symptoms; or 1 acute complicated injury</td><td>Moderate — 1 of 3 categories:<br>Cat 1: any 3 of external notes, test results, test orders, independent historian<br>Cat 2: independent interpretation of a test performed by another physician/QHP (not separately reported)<br>Cat 3: discussion of management or test interpretation with an external physician/QHP/appropriate source</td><td>Moderate (e.g., prescription drug management; decision regarding minor surgery with patient or procedure risk factors; decision regarding elective major surgery without risk factors; diagnosis or treatment significantly limited by social determinants of health)</td></tr>
+        <tr><td><strong>High</strong></td><td class="code">99205 / 99215</td><td>1+ chronic illness with severe exacerbation, progression, or side effects of treatment; or 1 acute or chronic illness or injury posing a threat to life or bodily function</td><td>Extensive — 2 of the 3 moderate categories</td><td>High (e.g., drug therapy requiring intensive monitoring for toxicity; decision regarding elective major surgery with risk factors; decision regarding emergency major surgery; decision regarding hospitalization or escalation of hospital-level care; decision not to resuscitate or to de-escalate care because of poor prognosis; parenteral controlled substances)</td></tr>
+      </tbody></table>
+      <p class="hint">Inpatient/observation (99221–99223, 99231–99233), consultation (99242–99245, 99252–99255), and ED (99281–99285) codes map to the same four MDM levels. Obstetric note: per AMA guidance citing CPT Assistant, a normal pregnancy may be counted as a problem addressed in the moderate category; data and risk must still support the overall level.</p>
+
+      <h3>Time thresholds (total time on the date of the encounter; must be met or exceeded)</h3>
+      <table><thead><tr><th>Service</th><th>Codes and minimum minutes</th></tr></thead><tbody>
+        <tr><td>Office/outpatient, new</td><td>99202 15 · 99203 30 · 99204 45 · 99205 60</td></tr>
+        <tr><td>Office/outpatient, established</td><td>99212 10 · 99213 20 · 99214 30 · 99215 40 · (99211: no MDM or time requirement; physician presence not required)</td></tr>
+        <tr><td>Hospital inpatient/observation, initial</td><td>99221 40 · 99222 55 · 99223 75</td></tr>
+        <tr><td>Hospital inpatient/observation, subsequent</td><td>99231 25 · 99232 35 · 99233 50</td></tr>
+        <tr><td>Same-day admission and discharge</td><td>99234 45 · 99235 70 · 99236 85</td></tr>
+        <tr><td>Discharge day management</td><td>99238 30 minutes or less · 99239 more than 30 minutes</td></tr>
+        <tr><td>Office consultation (not Medicare)</td><td>99242 20 · 99243 30 · 99244 40 · 99245 55</td></tr>
+        <tr><td>Inpatient consultation (not Medicare)</td><td>99252 35 · 99253 45 · 99254 60 · 99255 80</td></tr>
+        <tr><td>Emergency department</td><td>99281–99285: MDM only; time not used</td></tr>
+        <tr><td>Critical care</td><td>99291 first 30–74 minutes · 99292 each additional 30 minutes</td></tr>
+      </tbody></table>
+      <p><strong>Counts toward time:</strong> preparing (reviewing tests and records), obtaining/reviewing history, examination, counseling and education, ordering tests/medications/procedures, referring and communicating with other professionals, documenting, independently interpreting results (not separately reported), care coordination. <strong>Does not count:</strong> separately reported services (e.g., procedures, ultrasound interpretation billed separately), travel, teaching not related to the patient's management, and staff time. Document a single total (e.g., “Total time on the date of service: 34 minutes”), not a range.</p>
+
+      <h3>Prolonged services and add-on codes</h3>
+      <table><thead><tr><th>Code</th><th>Use</th></tr></thead><tbody>
+        <tr><td class="code">99417</td><td>CPT prolonged office/outpatient service, each 15 minutes beyond the minimum time of the highest level (99205 or 99215); time-based selection only. Commercial and many Medicaid plans.</td></tr>
+        <tr><td class="code">G2212</td><td>Medicare prolonged office/outpatient service, each 15 minutes beyond the Medicare threshold (89 minutes for 99205; 69 minutes for 99215).</td></tr>
+        <tr><td class="code">G2211</td><td>Medicare office/outpatient visit complexity add-on for a continuing longitudinal relationship (focal point for all needed services, or ongoing care of a single serious or complex condition). No time or MDM threshold. Not payable when the base E/M carries modifier 25, except when the same-day service is an annual wellness visit, vaccine administration, or a Medicare Part B preventive service. Commercial coverage varies.</td></tr>
+      </tbody></table>
+
+      <h3>New versus established patient</h3>
+      <p>A patient is established if any professional service was received from the physician/QHP, or another physician/QHP of the exact same specialty and subspecialty in the same group, within the past three years. Coverage by another clinician is classified as it would have been by the unavailable clinician. APNs and PAs are treated as the same specialty as their supervising physician. MFM and general OB/GYN may be treated as different subspecialties by CPT, but Medicare uses specialty code 16 for both; confirm payer policy.</p>
+
+      <h3>Same-day services</h3>
+      <ul>
+        <li><strong>Modifier 25:</strong> a significant, separately identifiable E/M on the same day as a procedure or preventive visit. The E/M documentation must support work beyond the procedure's usual pre-service evaluation and beyond the preventive service.</li>
+        <li><strong>Preventive and problem visit on the same day:</strong> report the preventive code plus the problem-oriented E/M with modifier 25, leveled only on the problem-oriented work.</li>
+        <li><strong>Minor procedures (0- and 10-day global):</strong> the decision to perform the procedure is included; an E/M is reported only when separately identifiable (modifier 25).</li>
+        <li><strong>Major procedures (90-day global):</strong> the decision-for-surgery E/M the day before or day of surgery is reported with modifier 57.</li>
+      </ul>
+
+      <h3>Telehealth</h3>
+      <p>Payer policy determines code selection. Options include office/outpatient E/M 99202–99215 with place of service 02/10 and modifier 95 (or 93 for audio-only where allowed), or CPT telemedicine codes 98000–98015. Verify each payer's current policy before reporting.</p>
+
+      <h3>Documentation essentials for any E/M</h3>
+      <ul>
+        <li>Reason for the encounter and each problem addressed, with status (e.g., stable, worsening, new with uncertain prognosis).</li>
+        <li>Data: which external notes were reviewed (source), which results were reviewed, which tests were ordered, independent interpretation (what and the finding), and discussion with external clinicians (who and the content).</li>
+        <li>Management: medications started/changed/continued, procedures considered or scheduled, admission or escalation decisions, and risk considerations.</li>
+        <li>Total time if time is used to select the level.</li>
+        <li>A prenatal flowsheet alone does not support an E/M level.</li>
+      </ul>
+      <p class="src">Sources: AMA CPT Evaluation and Management (E/M) Services Guidelines (2021 office/outpatient revision; 2023 extension to other settings) · <a href="https://www.aafp.org/practice-operations/billing-and-coding/evaluation-management/time-and-medical-decision-making-levels-evaluation-and-management" target="_blank" rel="noopener">AAFP: Time and MDM levels for E/M codes</a> · <a href="https://www.aafp.org/fpm/2025/0100/g2211-update" target="_blank" rel="noopener">AAFP: G2211 update (2025 modifier 25 exception)</a> · <a href="https://www.ama-assn.org/practice-management/cpt/faqs-cpt-2027-coding-antepartum-care-prenatal" target="_blank" rel="noopener">AMA FAQs: antepartum care</a>. Consult the current CPT Professional Edition and payer policy for official language.</p>
+    </div>
+  </section>
+  <section id="tab-reference" class="hidden">
+    <div class="card ref">
+      <h2>CPT 2027 maternity care: phase-based reporting (effective January 1, 2027)</h2>
+      <p>Global maternity packages are deleted. Care is reported in four phases: antepartum (E/M per encounter), labor management (per calendar date), delivery, and postpartum (E/M per encounter). CMS adopted the AMA CPT maternity codes in the CY 2027 Medicare Physician Fee Schedule final rule; the proposed maternity G-codes were not finalized.</p>
+      <h3>Labor management</h3>
+      <table><thead><tr><th>Code</th><th>Descriptor (summary)</th></tr></thead><tbody>
+        <tr><td class="code">59080</td><td>Initial day labor management; straightforward, per day</td></tr>
+        <tr><td class="code">59081</td><td>Initial day labor management; complex, per day</td></tr>
+        <tr><td class="code">59082</td><td>Subsequent day labor management; straightforward, per day</td></tr>
+        <tr><td class="code">59083</td><td>Subsequent day labor management; complex, per day</td></tr>
+      </tbody></table>
+      <p><strong>Straightforward</strong> requires all: singleton vertex; routine maternal/fetal monitoring; fetal monitoring not requiring physician/QHP intervention; normal progression or routine induction/augmentation; stable medical conditions requiring no additional management during labor; no previous cesarean. <strong>Complex</strong> is any labor management not meeting all straightforward criteria (e.g., multiple gestation, FHR abnormality requiring intervention, prolonged first or second stage, previous cesarean, maternal condition requiring added management). If complexity escalates during a calendar date, report complex for that date.</p>
+      <p><strong>Initial day</strong> applies when any is met: first calendar date labor management is needed or induction begins; the physician/group has not previously provided labor management during this admission; transfer to a new facility after labor management elsewhere; a different specialty/subspecialty assumes care for reasons other than coverage. Otherwise report <strong>subsequent day</strong>, once per calendar date at the highest level, including the delivery date when labor management is performed.</p>
+      <p>Hospital inpatient/observation E/M (99221–99223, 99231–99236) is not reported on the same date as 59080–59083 by the same physician/group. An E/M at another site before admission (office, ED) may be reported with modifier 25. A scheduled cesarean without labor has no labor management code. An unplanned cesarean during labor: labor management may be reported (59081/59083). Multiple gestation: one labor management code per date (complex).</p>
+      <h3>Delivery and related procedures</h3>
+      <table><thead><tr><th>Code</th><th>Descriptor (summary)</th><th>Notes</th></tr></thead><tbody>
+        <tr><td class="code">59431</td><td>Vaginal delivery</td><td>Includes 1st/2nd-degree laceration or episiotomy repair and same-day routine postpartum care; one per fetus delivered vaginally</td></tr>
+        <tr><td class="code">59432</td><td>Vaginal delivery after previous cesarean (VBAC)</td><td>Successful TOLAC</td></tr>
+        <tr><td class="code">59433</td><td>Repair of third-degree laceration or episiotomy</td><td>Separately reported</td></tr>
+        <tr><td class="code">59434</td><td>Repair of fourth-degree laceration or episiotomy</td><td>Separately reported</td></tr>
+        <tr><td class="code">59502</td><td>Cesarean delivery; primary</td><td>One cesarean code regardless of number of fetuses</td></tr>
+        <tr><td class="code">59503</td><td>Cesarean delivery; repeat</td><td>Includes failed TOLAC; repeat cesarean includes same-day E/M</td></tr>
+        <tr><td class="code">59504</td><td>Hysterectomy (subtotal or total) following cesarean delivery</td><td>Modifier 51 when same physician performs both</td></tr>
+        <tr><td class="code">59623</td><td>Uterine tamponade (device or packing)</td><td>Not for pharmacologic management of hemorrhage</td></tr>
+        <tr><td class="code">58611</td><td>Tubal ligation/transection at time of cesarean or intra-abdominal surgery</td><td>Add-on</td></tr>
+      </tbody></table>
+      <p>Revised: 59051 (fetal monitoring during labor by non-attending consultant, with interpretation and report); 59300 (1st/2nd-degree repair by other than delivering clinician; not with 59431/59432); 59412 (external cephalic version); 59414 (delivery of placenta, separate procedure; not with 59431/59432); 59898, 59899 (unlisted).</p>
+      <h3>Antepartum and postpartum</h3>
+      <p>Each encounter is leveled separately by MDM or total time. A prenatal flowsheet alone does not support an E/M level. Per AMA guidance citing CPT Assistant, a normal pregnancy may be counted as a problem addressed in the moderate category (chronic illness with exacerbation, progression, or side effects of treatment); data and risk must still be met for the overall level. Modifier TH (obstetrical treatment/services, prenatal or postpartum) identifies maternity services; confirm payer policy. Routine postpartum care on the delivery date is included in the delivery code; discharge codes 99238/99239 are not reported on the delivery date. Postpartum hospital days after the delivery date use subsequent hospital care, discharge, or critical care codes.</p>
+      <h3>Pregnancies spanning 2026–2027</h3>
+      <ul>
+        <li>2026 antepartum visits follow 2026 rules: 1–3 visits, E/M per visit; 4–6 visits, 59425; 7 or more, 59426. Non-routine encounters are reported separately.</li>
+        <li>Antepartum visits on or after January 1, 2027: E/M per encounter.</li>
+        <li>Delivery on or after January 1, 2027: 2027 codes. Continuous labor management spanning December 31–January 1 is reported once, with the initial code on January 1, 2027.</li>
+        <li>Delivery in 2026 (including December 31): report the 2026 code by delivery method; postpartum services on or after January 1, 2027 may be reported with E/M (with TH).</li>
+        <li>Confirm transition policy with each payer.</li>
+      </ul>
+      <h3>Deleted January 1, 2027</h3>
+      <p style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px">59050, 59400, 59409, 59410, 59425, 59426, 59430, 59510, 59514, 59515, 59525, 59610, 59612, 59614, 59618, 59620, 59622</p>
+      <p class="src">Sources: <a href="https://www.ama-assn.org/system/files/cpt-maternity-care-codes-guidelines.pdf" target="_blank" rel="noopener">AMA, CPT Maternity Care Services Codes and Guidelines (2027)</a> · <a href="https://www.ama-assn.org/practice-management/cpt/faqs-cpt-2027-maternity-care-services-code-changes" target="_blank" rel="noopener">AMA FAQs: CPT 2027 Maternity Care Services code changes</a> · <a href="https://www.ama-assn.org/practice-management/cpt/faqs-cpt-2027-coding-antepartum-care-prenatal" target="_blank" rel="noopener">AMA FAQs: antepartum care</a> · <a href="https://www.ama-assn.org/practice-management/cpt/faqs-cpt-2027-coding-maternity-care-spanning-transition-date" target="_blank" rel="noopener">AMA FAQs: care spanning the transition date</a> · <a href="https://www.acog.org/news/2026/11/acog-statement-on-2027-final-physician-fee-schedule" target="_blank" rel="noopener">ACOG statement on the 2027 final Physician Fee Schedule (Nov. 5, 2026)</a>. Descriptors are summarized; consult the CPT 2027 Professional Edition for official language.</p>
+    </div>
+  </section>
+
+  <section id="tab-modifiers" class="hidden">
+    <div class="card ref">
+      <h2>Common modifiers in OB/GYN</h2>
+      <table><thead><tr><th>Modifier</th><th>Meaning</th><th>Typical OB/GYN use</th></tr></thead><tbody>
+        <tr><td class="code">25</td><td>Significant, separately identifiable E/M on the same day as a procedure or other service</td><td>Problem visit plus IUD insertion, colposcopy, or EMB; problem visit plus preventive visit</td></tr>
+        <tr><td class="code">57</td><td>Decision for surgery</td><td>E/M the day before or day of a 90-day-global procedure at which the decision to operate is made</td></tr>
+        <tr><td class="code">24</td><td>Unrelated E/M during a postoperative period</td><td>Visit for an unrelated problem within a surgical global period</td></tr>
+        <tr><td class="code">58</td><td>Staged or related procedure during the postoperative period</td><td>Planned or more extensive follow-up procedure (e.g., planned second-stage procedure)</td></tr>
+        <tr><td class="code">78</td><td>Unplanned return to the OR for a related procedure during the postoperative period</td><td>Return to OR for postoperative hemorrhage</td></tr>
+        <tr><td class="code">79</td><td>Unrelated procedure during the postoperative period</td><td>Unrelated procedure within a global period</td></tr>
+        <tr><td class="code">51</td><td>Multiple procedures, same session</td><td>Secondary procedures (payer-dependent); 59504 with cesarean by the same physician</td></tr>
+        <tr><td class="code">59 / XE / XS / XP / XU</td><td>Distinct procedural service (X modifiers specify separate encounter, structure, practitioner, or unusual non-overlapping service)</td><td>Separate-site biopsies; services normally bundled under NCCI when truly distinct</td></tr>
+        <tr><td class="code">22</td><td>Increased procedural services</td><td>Substantially greater work (e.g., extensive adhesiolysis, morbid obesity) with documentation of the added time and complexity</td></tr>
+        <tr><td class="code">62</td><td>Two surgeons (co-surgery)</td><td>Each surgeon performs a distinct part of a single procedure; both document</td></tr>
+        <tr><td class="code">80 / 81 / 82</td><td>Assistant surgeon / minimum assistant / assistant when no qualified resident available</td><td>82 in a teaching hospital when no qualified resident was available, with documentation</td></tr>
+        <tr><td class="code">AS</td><td>Non-physician (PA, NP, CNS) assistant at surgery</td><td>APP first assist</td></tr>
+        <tr><td class="code">76 / 77</td><td>Repeat procedure by same / different physician</td><td>Repeat ultrasound on the same date</td></tr>
+        <tr><td class="code">26 / TC</td><td>Professional / technical component</td><td>Interpretation of ultrasound or NST performed on hospital equipment (26)</td></tr>
+        <tr><td class="code">33</td><td>Preventive service (ACA cost-sharing waiver)</td><td>Preventive services without cost sharing when payer requires it</td></tr>
+        <tr><td class="code">TH</td><td>Obstetrical treatment/services, prenatal or postpartum</td><td>Antepartum and postpartum E/M (AMA-recommended to identify maternity services; payer-dependent)</td></tr>
+        <tr><td class="code">95 / 93</td><td>Synchronous audio-video / audio-only telemedicine</td><td>Telehealth E/M per payer policy</td></tr>
+        <tr><td class="code">GC</td><td>Service performed in part by a resident under the direction of a teaching physician</td><td>Any service with resident involvement meeting teaching physician presence requirements</td></tr>
+        <tr><td class="code">GE</td><td>Service performed by a resident without the presence of a teaching physician under the primary care exception</td><td>Only at sites qualifying for the primary care exception; limited code set</td></tr>
+      </tbody></table>
+
+      <h3>Teaching physician rules (Medicare; many commercial payers follow similar policies)</h3>
+      <ul>
+        <li><strong>E/M:</strong> the teaching physician must be present for the key or critical portions of the service and personally document participation in the management of the patient. A resident note alone does not support billing.</li>
+        <li><strong>Time-based E/M:</strong> only time the teaching physician personally spent, including time present with the resident, counts toward the level.</li>
+        <li><strong>Surgery:</strong> the teaching physician must be present for the key or critical portions and immediately available throughout the procedure; overlapping-surgery documentation requirements apply.</li>
+        <li><strong>Minor procedures (under 5 minutes):</strong> the teaching physician must be present for the entire procedure.</li>
+        <li><strong>Deliveries:</strong> the teaching physician must be present for the delivery to bill the delivery service.</li>
+        <li><strong>Primary care exception (GE):</strong> applies only at qualifying sites and to a limited set of lower-level E/M services; verify site eligibility with compliance before use.</li>
+        <li><strong>Assistant at surgery:</strong> Medicare generally does not pay a physician assistant-at-surgery in a teaching hospital when a qualified resident is available; modifier 82 requires documentation that no qualified resident was available.</li>
+      </ul>
+      <p class="src">Source: CMS Medicare Claims Processing Manual, Chapter 12, Section 100 (Teaching Physician Services); CMS MLN “Teaching Physicians, Interns &amp; Residents Guidelines”; CPT Appendix A (Modifiers). Confirm Holy Name compliance policy for resident billing.</p>
+    </div>
+  </section>
+
+  <section id="tab-procedures" class="hidden">
+    <div class="card ref">
+      <h2>Preventive services</h2>
+      <table><thead><tr><th>Age</th><th>New</th><th>Established</th></tr></thead><tbody>
+        <tr><td>12–17 years</td><td class="code">99384</td><td class="code">99394</td></tr>
+        <tr><td>18–39 years</td><td class="code">99385</td><td class="code">99395</td></tr>
+        <tr><td>40–64 years</td><td class="code">99386</td><td class="code">99396</td></tr>
+        <tr><td>65 years and older</td><td class="code">99387</td><td class="code">99397</td></tr>
+      </tbody></table>
+      <p><strong>Medicare</strong> does not cover 99381–99397. Report <span class="code">G0101</span> (cervical or vaginal cancer screening; pelvic and clinical breast examination) and <span class="code">Q0091</span> (obtaining screening Pap smear) when coverage and frequency criteria are met, and the annual wellness visit (G0438/G0439) where applicable. A problem addressed at a preventive visit is reported separately with an office E/M and modifier 25 only when the problem-oriented work is significant and separately identifiable. Medicaid patients under 21: EPSDT rules may apply.</p>
+
+      <h2 style="margin-top:22px">Common office procedures</h2>
+      <table><thead><tr><th>Code</th><th>Procedure (summary)</th><th>Documentation must include</th></tr></thead><tbody>
+        <tr><td class="code">58100</td><td>Endometrial sampling (biopsy), with or without endocervical sampling, without cervical dilation</td><td>Indication, consent, technique, specimens, tolerance</td></tr>
+        <tr><td class="code">58300</td><td>Insertion of intrauterine device</td><td>Device and lot, uterine sounding depth, technique, string length; report device supply (J-code) separately in office</td></tr>
+        <tr><td class="code">58301</td><td>Removal of intrauterine device</td><td>Indication, technique, device intact</td></tr>
+        <tr><td class="code">11981 / 11982 / 11983</td><td>Insertion / removal / removal with reinsertion of non-biodegradable drug-delivery implant</td><td>Site, anesthesia, technique; report implant supply (J7307) separately</td></tr>
+        <tr><td class="code">57420 / 57421</td><td>Colposcopy of vagina; with biopsy</td><td>Indication, adequacy, findings, biopsy sites</td></tr>
+        <tr><td class="code">57452</td><td>Colposcopy of cervix including upper/adjacent vagina</td><td>Adequacy (transformation zone visualized), findings</td></tr>
+        <tr><td class="code">57454</td><td>Colposcopy of cervix with biopsy(s) and endocervical curettage</td><td>Biopsy sites and ECC</td></tr>
+        <tr><td class="code">57455 / 57456</td><td>Colposcopy of cervix with biopsy(s) / with endocervical curettage</td><td>Biopsy sites or ECC</td></tr>
+        <tr><td class="code">57460 / 57461</td><td>Colposcopy with loop electrode biopsy(s) / with loop electrode conization</td><td>Loop size, depth, hemostasis, specimen</td></tr>
+        <tr><td class="code">57500</td><td>Cervical biopsy, single or multiple, or local excision of lesion (without colposcopy)</td><td>Site(s), technique</td></tr>
+        <tr><td class="code">57505</td><td>Endocervical curettage (not done as part of D&amp;C)</td><td>Technique, specimen</td></tr>
+        <tr><td class="code">57511</td><td>Cryocautery of cervix</td><td>Indication, freeze cycles</td></tr>
+        <tr><td class="code">56605 / 56606</td><td>Vulvar or perineal biopsy; one lesion / each additional lesion</td><td>Number and site of lesions</td></tr>
+        <tr><td class="code">56420</td><td>Incision and drainage of Bartholin gland abscess</td><td>Technique, drainage, catheter placement</td></tr>
+        <tr><td class="code">56440</td><td>Marsupialization of Bartholin gland cyst</td><td>Technique</td></tr>
+        <tr><td class="code">57160</td><td>Fitting and insertion of pessary or other intravaginal support device</td><td>Type and size, fit assessment; pessary supply separately</td></tr>
+        <tr><td class="code">58340</td><td>Catheterization and introduction of saline or contrast for saline infusion sonohysterography or hysterosalpingography</td><td>Report with 76831 (SIS) when performed and interpreted</td></tr>
+        <tr><td class="code">58555 / 58558</td><td>Hysteroscopy, diagnostic / with sampling (biopsy) of endometrium and/or polypectomy</td><td>Findings, specimens</td></tr>
+      </tbody></table>
+
+      <h2 style="margin-top:22px">Ultrasound and antenatal testing</h2>
+      <table><thead><tr><th>Code</th><th>Service (summary)</th></tr></thead><tbody>
+        <tr><td class="code">76801 / 76802</td><td>Obstetric US, under 14 weeks, transabdominal; first gestation / each additional</td></tr>
+        <tr><td class="code">76805 / 76810</td><td>Obstetric US, 14 weeks or more, transabdominal; first gestation / each additional</td></tr>
+        <tr><td class="code">76811 / 76812</td><td>Obstetric US with detailed fetal anatomic examination; first gestation / each additional</td></tr>
+        <tr><td class="code">76813 / 76814</td><td>Nuchal translucency measurement; first gestation / each additional</td></tr>
+        <tr><td class="code">76815</td><td>Obstetric US, limited (e.g., fetal heart beat, placental location, fetal position, amniotic fluid), one or more fetuses</td></tr>
+        <tr><td class="code">76816</td><td>Obstetric US, follow-up (e.g., re-evaluation of fetal size or organ system), per fetus</td></tr>
+        <tr><td class="code">76817</td><td>Obstetric US, transvaginal</td></tr>
+        <tr><td class="code">76818 / 76819</td><td>Fetal biophysical profile; with / without non-stress testing</td></tr>
+        <tr><td class="code">59025</td><td>Fetal non-stress test</td></tr>
+        <tr><td class="code">76830</td><td>Transvaginal US, non-obstetric</td></tr>
+        <tr><td class="code">76856 / 76857</td><td>Pelvic US, non-obstetric, transabdominal; complete / limited or follow-up</td></tr>
+        <tr><td class="code">76831</td><td>Saline infusion sonohysterography, including color flow Doppler when performed</td></tr>
+      </tbody></table>
+      <p>Ultrasound requires a signed, retained interpretation report and image documentation. When the study is performed on hospital equipment, the physician reports the professional component (modifier 26). An ultrasound reviewed but billed separately cannot also count toward E/M data or time.</p>
+      <p class="src">Descriptors are summarized from the CPT code set and HCPCS Level II. Verify current descriptors, global periods (MPFS global indicator), NCCI edits, and payer coverage before reporting.</p>
+    </div>
+  </section>
+</main>
+<div class="mbar" id="mbar"><span id="mbarText">Answer the questions</span><button type="button" id="mbarBtn">View code and note</button></div>
+<footer>Holy Name Women's &amp; Children's Health · OB/GYN Coding Aid (guided version) · Educational decision support only; not an official billing, coding, or compliance application. Rule content current as of November 11, 2026. CPT® is a registered trademark of the American Medical Association.</footer>
+<script>
+/* OB/GYN Coding Aid - rule engine (no AI). compute(state) -> result */
+var ENGINE = (function(){
+"use strict";
+
+var LV = ["straightforward","low","moderate","high"];
+var LVNAME = {straightforward:"Straightforward",low:"Low",moderate:"Moderate",high:"High"};
+
+function num(v){ var n=parseFloat(v); return isNaN(n)?0:n; }
+
+
+/* ---------- E/M code tables ---------- */
+var TABLES = {
+  office_new:   {codes:["99202","99203","99204","99205"], time:[15,30,45,60], label:"Office/outpatient visit, new patient"},
+  office_est:   {codes:["99212","99213","99214","99215"], time:[10,20,30,40], label:"Office/outpatient visit, established patient"},
+  ip_initial:   {codes:["99221","99221","99222","99223"], time:[40,40,55,75], label:"Initial hospital inpatient/observation care"},
+  ip_sub:       {codes:["99231","99231","99232","99233"], time:[25,25,35,50], label:"Subsequent hospital inpatient/observation care"},
+  ip_sameday:   {codes:["99234","99234","99235","99236"], time:[45,45,70,85], label:"Hospital care, admission and discharge same date"},
+  consult_op:   {codes:["99242","99243","99244","99245"], time:[20,30,40,55], label:"Office/outpatient consultation"},
+  consult_ip:   {codes:["99252","99253","99254","99255"], time:[35,45,60,80], label:"Inpatient/observation consultation"},
+  ed:           {codes:["99282","99283","99284","99285"], time:null, label:"Emergency department visit"}
+};
+var TELE = { // CPT telemedicine alternatives (payer-dependent)
+  av_new:["98000","98001","98002","98003"], av_est:["98004","98005","98006","98007"],
+  ao_new:["98008","98009","98010","98011"], ao_est:["98012","98013","98014","98015"]
+};
+
+function timeLevel(tbl, t){
+  if(!tbl.time || !t) return null;
+  var lvl=null;
+  for(var i=0;i<4;i++){ if(t>=tbl.time[i]) lvl=i; }
+  return lvl===null?null:lvl;
+}
+
+
+/* ---------- Problem and risk choices: [id, level, label, note sentence] ---------- */
+var PROBOPTS = [
+ ["p_minor","straightforward","One minor or self-limited problem","{p}: minor, self-limited."],
+ ["p_2minor","low","Two or more minor problems","{p}: minor, self-limited."],
+ ["p_stable","low","One stable chronic condition","{p}: chronic, stable on current treatment."],
+ ["p_acute","low","Acute, uncomplicated illness or injury","{p}: acute, uncomplicated."],
+ ["p_preg","moderate","Pregnancy — routine prenatal care (2027)","Intrauterine pregnancy at ___ weeks; ___ (maternal and fetal status)."],
+ ["p_worse","moderate","Chronic condition worsening, not at goal, or with side effects","{p}: ___ (worsening / not at goal / side effect) — ___ (supporting finding)."],
+ ["p_2stable","moderate","Two or more stable chronic conditions","{p}: each stable on current treatment."],
+ ["p_new","moderate","New problem, cause or prognosis uncertain","{p}: new, cause uncertain; differential includes ___."],
+ ["p_systemic","moderate","Acute illness with systemic symptoms","{p} with systemic symptoms: ___."],
+ ["p_severe","high","Chronic condition, severe exacerbation","{p}: severe exacerbation — ___."],
+ ["p_threat","high","Threat to life or bodily function","{p}: threat to ___ (life / organ function) — ___."]
+];
+var RISKOPTS = [
+ ["r_none","straightforward","No treatment; reassurance or observation","Plan: ___ (reassurance / observation)."],
+ ["r_otc","low","Over-the-counter medication","Recommended ___ (OTC medication)."],
+ ["r_rx_change","moderate","Prescription started, stopped, or dose changed","___ (drug, dose) started / stopped / changed because ___."],
+ ["r_rx_cont","moderate","Prescription continued, with monitoring","Continue ___ (drug, dose); monitoring ___ (response / side effects)."],
+ ["r_minor_risk","moderate","Decision for minor procedure, patient has risk factors","Decision for ___ (procedure); risk factors: ___."],
+ ["r_major_norisk","moderate","Decision for elective major surgery, no risk factors","Decision for ___ (surgery); risks, benefits, and alternatives reviewed."],
+ ["r_sdoh","moderate","Care limited by social factors (cost, transport, housing)","___ (barrier) limits ___ (testing / treatment); plan adjusted: ___."],
+ ["r_admit","high","Decision about admission or escalation of care","Admission vs. outpatient management considered; decided ___ because ___."],
+ ["r_major_risk","high","Decision for elective major surgery, with risk factors","Decision for ___ (surgery); patient risk factors: ___."],
+ ["r_emerg","high","Decision for emergency major surgery","Decision for emergency ___ (surgery) for ___ (indication)."],
+ ["r_toxic","high","Drug needing intensive toxicity monitoring (e.g., magnesium)","___ (drug); monitoring ___ (levels / reflexes / urine output) for toxicity."]
+];
+function optLevel(list,id){ for(var i=0;i<list.length;i++) if(list[i][0]===id) return list[i][1]; return ""; }
+function optNote(list,id){ for(var i=0;i<list.length;i++) if(list[i][0]===id) return list[i][3]; return ""; }
+function items(v){ return String(v||"").split(/[,;\n]+/).map(function(x){return x.trim();}).filter(Boolean); }
+
+/* ---------- MDM (choice-based) ---------- */
+function dataLevel(s){
+  var cat1 = num(s.notesN) + num(s.resultsN) + num(s.ordersN);
+  var hist=!!s.historian, interp=!!s.interp, disc=!!s.discussion;
+  var catA = (cat1 + (hist?1:0)) >= 3;
+  var cats = (catA?1:0)+(interp?1:0)+(disc?1:0);
+  if (cats>=2) return "high";
+  if (cats>=1) return "moderate";
+  if (cat1>=2 || hist) return "low";
+  return "straightforward";
+}
+function mdmLevel(s){
+  var p = optLevel(PROBOPTS,s.problemChoice), d = dataLevel(s), r = optLevel(RISKOPTS,s.riskChoice);
+  if(!p || !r) return {level:null, p:p, d:d, r:r};
+  var idx = [LV.indexOf(p), LV.indexOf(d), LV.indexOf(r)].sort(function(a,b){return b-a;});
+  return {level: LV[idx[1]], p:p, d:d, r:r};
+}
+var SHORT = {straightforward:"minimal",low:"low",moderate:"moderate",high:"high"};
+
+function emCode(tableKey, s){
+  var tbl=TABLES[tableKey], m=mdmLevel(s), t=num(s.time);
+  var mi = m.level? LV.indexOf(m.level) : null;
+  var ti = (tableKey==="ed")? null : timeLevel(tbl,t);
+  if(mi===null && ti===null) return {code:null, mdm:m};
+  var use, basis;
+  if(ti!==null && (mi===null || ti>mi)){ use=ti; basis="time"; } else { use=mi; basis="mdm"; }
+  var why;
+  if(basis==="mdm"){
+    var ok3=[["problem",m.p],["risk",m.r],["data",m.d]].filter(function(x){return LV.indexOf(x[1])>=use;});
+    var parts=ok3.slice(0,2);
+    why = LVNAME[m.level]+" MDM: "+parts.map(function(x){return x[0]+" "+SHORT[x[1]];}).join(" + ")+".";
+  } else why = "Time: "+t+" min (≥"+tbl.time[use]+").";
+  return {code:tbl.codes[use], idx:use, basis:basis, mdm:m, time:t, why:why,
+          label:tbl.label+", "+(basis==="mdm"?SHORT[LV[use]]+" MDM":"by time")};
+}
+
+/* ---------- Next level up (compact) ---------- */
+var P_NEXT={low:"a stable chronic or acute uncomplicated problem", moderate:"a worsening/not-at-goal chronic problem, 2+ stable chronic problems, or a new problem with uncertain prognosis", high:"a severe exacerbation or a threat to life/organ function"};
+var R_NEXT={low:"OTC medication", moderate:"a prescription started, changed, or continued with monitoring", high:"a decision about admission/escalation, or major surgery with risk factors"};
+function dNext(s,target){
+  var c1=num(s.notesN)+num(s.resultsN)+num(s.ordersN), h=s.historian?1:0;
+  var n1=Math.max(1,2-c1), n2=Math.max(1,3-c1-h);
+  if(target==="low") return n1+" more record reviewed, result reviewed, or test ordered";
+  if(target==="moderate") return n2+" more record/result/order item"+(n2>1?"s":"")+", OR an outside test personally reviewed, OR management discussed with an outside clinician";
+  return "two of: 3 record/result/order items · an outside test personally reviewed · management discussed with an outside clinician";
+}
+function nextLevel(tableKey, s, em){
+  var tbl=TABLES[tableKey]; if(!tbl||em.idx==null) return null;
+  var cur=tbl.codes[em.idx], j=em.idx+1;
+  while(j<4 && tbl.codes[j]===cur) j++;
+  if(j>=4){
+    if(tableKey==="office_new"||tableKey==="office_est"){
+      var t=num(s.time), med=s.payer==="Medicare";
+      var base = med ? (cur==="99205"?74:54) : (cur==="99205"?60:40);
+      var u = em.basis==="time" ? Math.max(0,Math.floor((t-base)/15)) : 0;
+      return {code:med?"G2212":"99417", time: base+15*(u+1), items:[], need:0, note:"prolonged service, time-based visits only"};
+    }
+    return null;
+  }
+  var target=LV[j], m=em.mdm, ti=j;
+  var out={code:tbl.codes[j], time:(tableKey!=="ed"&&tbl.time)?tbl.time[j]:null, items:[]};
+  var met=0;
+  [["p",m.p],["d",m.d],["r",m.r]].forEach(function(e){
+    if(LV.indexOf(e[1])>=ti){ met++; return; }
+    if(e[0]==="p") out.items.push("Problem: "+P_NEXT[target]);
+    if(e[0]==="d") out.items.push("Data: "+dNext(s,target));
+    if(e[0]==="r") out.items.push("Risk: "+R_NEXT[target]);
+  });
+  out.need=Math.max(0,2-met);
+  return out;
+}
+/* ---------- Pregnancy ICD-10 helpers ---------- */
+function trimester(ga){ if(!ga) return null; if(ga<14) return 1; if(ga<28) return 2; return 3; }
+function z3a(ga){
+  if(!ga) return null; ga=Math.floor(ga);
+  if(ga<8) return {code:"Z3A.01",label:"Less than 8 weeks gestation"};
+  if(ga>42) return {code:"Z3A.49",label:"Greater than 42 weeks gestation"};
+  return {code:"Z3A."+(ga<10?"0":"")+ga, label:ga+" weeks gestation"};
+}
+var TRI = {1:"first trimester",2:"second trimester",3:"third trimester"};
+
+/* Common antepartum conditions: [id, label, fn(tri, ga) -> [{code,label}] or null] */
+var PCOND = [
+ ["chtn","Chronic (pre-existing essential) hypertension",function(t){return [{code:"O10.01"+t,label:"Pre-existing essential hypertension complicating pregnancy, "+TRI[t]}];}],
+ ["ghtn","Gestational hypertension (no significant proteinuria)",function(t){return [{code:"O13."+t,label:"Gestational hypertension, "+TRI[t]}];}],
+ ["preE","Preeclampsia, mild to moderate",function(t){return t>1?[{code:"O14.0"+t,label:"Mild to moderate preeclampsia, "+TRI[t]}]:null;}],
+ ["preEsev","Preeclampsia with severe features",function(t){return t>1?[{code:"O14.1"+t,label:"Severe preeclampsia, "+TRI[t]}]:null;}],
+ ["gdm_diet","Gestational diabetes, diet controlled",function(){return [{code:"O24.410",label:"Gestational diabetes in pregnancy, diet controlled"}];}],
+ ["gdm_oral","Gestational diabetes, oral hypoglycemic",function(){return [{code:"O24.415",label:"Gestational diabetes in pregnancy, controlled by oral hypoglycemic drugs"}];}],
+ ["gdm_ins","Gestational diabetes, insulin",function(){return [{code:"O24.414",label:"Gestational diabetes in pregnancy, insulin controlled"}];}],
+ ["t2dm","Pre-existing type 2 diabetes",function(t){return [{code:"O24.11"+t,label:"Pre-existing type 2 diabetes in pregnancy, "+TRI[t]}];}],
+ ["anemia","Anemia",function(t){return [{code:"O99.01"+t,label:"Anemia complicating pregnancy, "+TRI[t]},{code:"D-code",label:"Type of anemia (e.g., D50.9 iron deficiency)"}];}],
+ ["hypothy","Hypothyroidism",function(t){return [{code:"O99.28"+t,label:"Endocrine/metabolic disease complicating pregnancy, "+TRI[t]},{code:"E03.9",label:"Hypothyroidism, unspecified"}];}],
+ ["obesity","Obesity",function(t){return [{code:"O99.21"+t,label:"Obesity complicating pregnancy, "+TRI[t]},{code:"E66.-",label:"Obesity type; add Z68.- BMI (adult)"}];}],
+ ["ama_primi","Advanced maternal age, first pregnancy (35+ at delivery)",function(t){return [{code:"O09.51"+t,label:"Supervision of elderly primigravida, "+TRI[t]}];}],
+ ["ama_multi","Advanced maternal age, not first pregnancy (35+ at delivery)",function(t){return [{code:"O09.52"+t,label:"Supervision of elderly multigravida, "+TRI[t]}];}],
+ ["hx_ptl","History of preterm labor/birth",function(t){return [{code:"O09.21"+t,label:"Supervision of pregnancy with history of pre-term labor, "+TRI[t]}];}],
+ ["prior_cs","Previous low transverse cesarean",function(){return [{code:"O34.211",label:"Maternal care for low transverse scar from previous cesarean delivery"}];}],
+ ["uti","Urinary tract infection",function(t){return [{code:"O23.4"+t,label:"Unspecified infection of urinary tract in pregnancy, "+TRI[t]}];}],
+ ["hyperemesis","Hyperemesis gravidarum (mild)",function(){return [{code:"O21.0",label:"Mild hyperemesis gravidarum"}];}],
+ ["threatab","Threatened abortion",function(){return [{code:"O20.0",label:"Threatened abortion"}];}],
+ ["falselabor","False labor / contractions without cervical change",function(t,ga){return ga>=37?[{code:"O47.1",label:"False labor at or after 37 completed weeks"}]:(t>1?[{code:"O47.0"+t,label:"False labor before 37 completed weeks, "+TRI[t]}]:null);}],
+ ["ptl","Preterm labor without delivery",function(t){return t>1?[{code:"O60.0"+t,label:"Preterm labor without delivery, "+TRI[t]}]:null;}],
+ ["dfm","Decreased fetal movement (singleton)",function(t){return [{code:"O36.81"+t+"0",label:"Maternal care for decreased fetal movements, "+TRI[t]+", single gestation"}];}],
+ ["vag_candida","Vaginitis — yeast (candidiasis)",function(t){return [{code:"O23.59"+t,label:"Infection of other part of genital tract in pregnancy, "+TRI[t]},{code:"B37.31",label:"Acute candidiasis of vulva and vagina"}];}],
+ ["vag_bv","Vaginitis — bacterial vaginosis",function(t){return [{code:"O23.59"+t,label:"Infection of other part of genital tract in pregnancy, "+TRI[t]},{code:"N76.0",label:"Acute vaginitis"},{code:"B96.89",label:"Other specified bacterial agents (verify payer convention for BV)"}];}],
+ ["vag_trich","Vaginitis — trichomoniasis",function(t){return [{code:"O98.31"+t,label:"Other infection with predominantly sexual mode of transmission complicating pregnancy, "+TRI[t]},{code:"A59.01",label:"Trichomonal vulvovaginitis"}];}],
+ ["vag_unsp","Vaginitis — organism not identified",function(t){return [{code:"O23.59"+t,label:"Infection of other part of genital tract in pregnancy, "+TRI[t]},{code:"N76.0",label:"Acute vaginitis"}];}],
+ ["other","Other condition not listed",function(t){return [{code:"O-code",label:"O-chapter code for the condition"+(t?", "+TRI[t]:"")}];}]
+];
+/* Common gynecologic diagnoses (not pregnant) */
+var GCOND = [
+ ["g_candida","Vaginitis — yeast (candidiasis)",[{code:"B37.31",label:"Acute candidiasis of vulva and vagina"}]],
+ ["g_bv","Vaginitis — bacterial vaginosis",[{code:"N76.0",label:"Acute vaginitis"},{code:"B96.89",label:"Other specified bacterial agents (verify payer convention for BV)"}]],
+ ["g_trich","Vaginitis — trichomoniasis",[{code:"A59.01",label:"Trichomonal vulvovaginitis"}]],
+ ["g_vag","Vaginitis — organism not identified",[{code:"N76.0",label:"Acute vaginitis"}]],
+ ["g_aub","Abnormal uterine bleeding, unspecified",[{code:"N93.9",label:"Abnormal uterine and vaginal bleeding, unspecified"}]],
+ ["g_hmb","Heavy menstrual bleeding (regular cycle)",[{code:"N92.0",label:"Excessive and frequent menstruation with regular cycle"}]],
+ ["g_pmb","Postmenopausal bleeding",[{code:"N95.0",label:"Postmenopausal bleeding"}]],
+ ["g_amen","Secondary amenorrhea",[{code:"N91.1",label:"Secondary amenorrhea"}]],
+ ["g_dysmen","Dysmenorrhea",[{code:"N94.6",label:"Dysmenorrhea, unspecified"}]],
+ ["g_pelvic","Pelvic pain",[{code:"R10.2",label:"Pelvic and perineal pain"}]],
+ ["g_fibroid","Uterine fibroids",[{code:"D25.9",label:"Leiomyoma of uterus, unspecified"}]],
+ ["g_cyst","Ovarian cyst (specify side)",[{code:"N83.20-",label:"Unspecified ovarian cyst (6th character: 1 right, 2 left, 9 unspecified)"}]],
+ ["g_pcos","Polycystic ovary syndrome",[{code:"E28.2",label:"Polycystic ovarian syndrome"}]],
+ ["g_meno","Menopausal / vasomotor symptoms",[{code:"N95.1",label:"Menopausal and female climacteric states"}]],
+ ["g_ascus","Abnormal Pap: ASC-US",[{code:"R87.610",label:"ASC-US on cytologic smear of cervix"}]],
+ ["g_lsil","Abnormal Pap: LSIL",[{code:"R87.612",label:"LSIL on cytologic smear of cervix"}]],
+ ["g_hsil","Abnormal Pap: HSIL",[{code:"R87.613",label:"HSIL on cytologic smear of cervix"}]],
+ ["g_hpv","High-risk HPV positive",[{code:"R87.810",label:"Cervical high risk HPV DNA test positive"}]],
+ ["g_cin1","CIN 1",[{code:"N87.0",label:"Mild cervical dysplasia"}]],
+ ["g_cin2","CIN 2",[{code:"N87.1",label:"Moderate cervical dysplasia"}]],
+ ["g_cin3","CIN 3",[{code:"D06.9",label:"Carcinoma in situ of cervix, unspecified"}]],
+ ["g_bart_abs","Bartholin gland abscess",[{code:"N75.1",label:"Abscess of Bartholin's gland"}]],
+ ["g_bart_cyst","Bartholin gland cyst",[{code:"N75.0",label:"Cyst of Bartholin's gland"}]],
+ ["g_prolapse","Uterovaginal prolapse",[{code:"N81.4",label:"Uterovaginal prolapse, unspecified"}]],
+ ["g_iud_ins","Contraception: IUD insertion",[{code:"Z30.430",label:"Encounter for insertion of intrauterine contraceptive device"}]],
+ ["g_iud_rem","Contraception: IUD removal",[{code:"Z30.432",label:"Encounter for removal of intrauterine contraceptive device"}]],
+ ["g_iud_rr","Contraception: IUD removal and reinsertion",[{code:"Z30.433",label:"Encounter for removal and reinsertion of intrauterine contraceptive device"}]],
+ ["g_imp_ins","Contraception: implant insertion",[{code:"Z30.017",label:"Encounter for initial prescription of implantable subdermal contraceptive"}]],
+ ["g_imp_rem","Contraception: implant removal",[{code:"Z30.46",label:"Encounter for surveillance of implantable subdermal contraceptive"}]],
+ ["g_contra_couns","Contraceptive counseling",[{code:"Z30.09",label:"Encounter for other general counseling and advice on contraception"}]],
+ ["g_other","Other condition not listed",[{code:"ICD-10",label:"Code the condition to the highest specificity documented"}]]
+];
+/* Labor / delivery encounter diagnoses (childbirth-specific codes where they exist) */
+var LCOND = [
+ ["l_fhr","Abnormal FHR / category II–III tracing",function(){return [{code:"O76",label:"Abnormality in fetal heart rate and rhythm complicating labor and delivery"}];}],
+ ["l_arrest1","Arrest of dilation (active phase)",function(){return [{code:"O62.1",label:"Secondary uterine inertia"}];}],
+ ["l_prot1","Prolonged first stage",function(){return [{code:"O63.0",label:"Prolonged first stage (of labor)"}];}],
+ ["l_prol2","Prolonged second stage / arrest of descent",function(){return [{code:"O63.1",label:"Prolonged second stage (of labor)"}];}],
+ ["l_failind","Failed induction",function(){return [{code:"O61.0",label:"Failed medical induction of labor"}];}],
+ ["l_prevcs","Previous cesarean (low transverse)",function(){return [{code:"O34.211",label:"Maternal care for low transverse scar from previous cesarean delivery"}];}],
+ ["l_breech","Breech presentation (singleton)",function(){return [{code:"O32.1XX0",label:"Maternal care for breech presentation, single gestation"}];}],
+ ["l_ghtn","Gestational hypertension",function(){return [{code:"O13.4",label:"Gestational hypertension complicating childbirth"}];}],
+ ["l_preE","Preeclampsia, mild to moderate",function(){return [{code:"O14.04",label:"Mild to moderate preeclampsia complicating childbirth"}];}],
+ ["l_preEsev","Preeclampsia with severe features",function(){return [{code:"O14.14",label:"Severe preeclampsia complicating childbirth"}];}],
+ ["l_hellp","HELLP syndrome",function(){return [{code:"O14.24",label:"HELLP syndrome complicating childbirth"}];}],
+ ["l_chtn","Chronic hypertension",function(){return [{code:"O10.02",label:"Pre-existing essential hypertension complicating childbirth"}];}],
+ ["l_gdm_diet","Gestational diabetes, diet controlled",function(){return [{code:"O24.420",label:"Gestational diabetes in childbirth, diet controlled"}];}],
+ ["l_gdm_oral","Gestational diabetes, oral medication",function(){return [{code:"O24.425",label:"Gestational diabetes in childbirth, controlled by oral hypoglycemic drugs"}];}],
+ ["l_gdm_ins","Gestational diabetes, insulin",function(){return [{code:"O24.424",label:"Gestational diabetes in childbirth, insulin controlled"}];}],
+ ["l_t2dm","Pre-existing type 2 diabetes",function(){return [{code:"O24.12",label:"Pre-existing type 2 diabetes in childbirth"}];}],
+ ["l_chorio","Intraamniotic infection / chorioamnionitis",function(t){return t===3?[{code:"O41.1230",label:"Chorioamnionitis, third trimester, single gestation"}]:(t===2?[{code:"O41.1220",label:"Chorioamnionitis, second trimester, single gestation"}]:null);}],
+ ["l_fever","Fever in labor (no diagnosis of infection)",function(){return [{code:"O75.2",label:"Pyrexia during labor, not elsewhere classified"}];}],
+ ["l_prom24","Term PROM, labor within 24 hours",function(){return [{code:"O42.02",label:"Full-term PROM, onset of labor within 24 hours of rupture"}];}],
+ ["l_prom24p","Term PROM, labor after 24 hours",function(){return [{code:"O42.12",label:"Full-term PROM, onset of labor more than 24 hours following rupture"}];}],
+ ["l_postterm","Post-term (over 40 weeks)",function(t,ga){return ga>=42?[{code:"O48.1",label:"Prolonged pregnancy"}]:[{code:"O48.0",label:"Post-term pregnancy"}];}],
+ ["l_ptl","Preterm labor with preterm delivery",function(t){return t===3?[{code:"O60.14X0",label:"Preterm labor, third trimester, with preterm delivery third trimester, single"}]:(t===2?[{code:"O60.12X0",label:"Preterm labor, second trimester, with preterm delivery second trimester, single"}]:null);}],
+ ["l_macro","Suspected macrosomia (singleton)",function(t){return [{code:"O36.6"+t+"X0",label:"Maternal care for excessive fetal growth, "+TRI[t]+", single"}];}],
+ ["l_fgr","Fetal growth restriction (singleton)",function(t){return [{code:"O36.59"+t+"0",label:"Maternal care for poor fetal growth, "+TRI[t]+", single"}];}],
+ ["l_twin","Twins, dichorionic/diamniotic",function(t){return [{code:"O30.04"+t,label:"Twin pregnancy, dichorionic/diamniotic, "+TRI[t]}];}],
+ ["l_mec","Meconium-stained fluid",function(){return [{code:"O77.0",label:"Labor and delivery complicated by meconium in amniotic fluid"}];}],
+ ["l_shoulder","Shoulder dystocia",function(){return [{code:"O66.0",label:"Obstructed labor due to shoulder dystocia"}];}],
+ ["l_cordpro","Cord prolapse",function(){return [{code:"O69.0XX0",label:"Labor and delivery complicated by prolapse of cord, single"}];}],
+ ["l_pph","Postpartum hemorrhage (atony)",function(){return [{code:"O72.1",label:"Other immediate postpartum hemorrhage"}];}],
+ ["l_gbs","GBS carrier",function(){return [{code:"O99.824",label:"Streptococcus B carrier state complicating childbirth"},{code:"Z22.330",label:"Carrier of streptococcus group B"}];}],
+ ["l_obese","Obesity",function(){return [{code:"O99.214",label:"Obesity complicating childbirth"},{code:"E66.-",label:"Obesity type; Z68.- BMI"}];}],
+ ["l_anemia","Anemia",function(){return [{code:"O99.02",label:"Anemia complicating childbirth"},{code:"D-code",label:"Type of anemia"}];}],
+ ["l_other","Other condition not listed",function(){return [{code:"O-code",label:"O-chapter code for the condition"}];}]
+];
+var LAC = {lac1:["O70.0","First degree perineal laceration during delivery"],lac2:["O70.1","Second degree perineal laceration during delivery"],lac3a:["O70.21","Third degree perineal laceration, IIIa"],lac3b:["O70.22","Third degree perineal laceration, IIIb"],lac3c:["O70.23","Third degree perineal laceration, IIIc"],lac4:["O70.3","Fourth degree perineal laceration during delivery"]};
+
+var PPCOND = [
+ ["pp_ghtn","Gestational hypertension, postpartum",function(){return [{code:"O13.5",label:"Gestational hypertension complicating the puerperium"}];}],
+ ["pp_chtn","Chronic hypertension, postpartum",function(){return [{code:"O10.03",label:"Pre-existing essential hypertension complicating the puerperium"}];}],
+ ["pp_preE","Preeclampsia, postpartum (mild to moderate)",function(){return [{code:"O14.05",label:"Mild to moderate preeclampsia complicating the puerperium"}];}],
+ ["pp_preEsev","Preeclampsia with severe features, postpartum",function(){return [{code:"O14.15",label:"Severe preeclampsia complicating the puerperium"}];}],
+ ["pp_anemia","Postpartum anemia",function(){return [{code:"O90.81",label:"Anemia of the puerperium"}];}],
+ ["pp_ppd","Postpartum depression",function(){return [{code:"F53.0",label:"Postpartum depression"}];}],
+ ["pp_wound","Cesarean or perineal wound infection",function(){return [{code:"O86.0-",label:"Infection of obstetric surgical wound (specify depth: O86.00–O86.09)"}];}],
+ ["pp_mastitis","Mastitis (nonpurulent), postpartum",function(){return [{code:"O91.22",label:"Nonpurulent mastitis associated with the puerperium"}];}],
+ ["pp_other","Other condition not listed",function(){return [{code:"O-code",label:"O-chapter code for the condition (puerperium)"}];}]
+];
+function condCodes(list, ids, tri, ga){
+  var out=[], bad=[];
+  list.forEach(function(c){ if((ids||[]).indexOf(c[0])>=0){ var r=c[2](tri,ga); if(r) out=out.concat(r); else bad.push(c[1]); } });
+  return {codes:out, bad:bad};
+}
+function forcedComplication(s){ return (s.enc==="prenatal"&&s.year==="2026"&&s.ante2026==="problem_beyond") || (s.enc==="postpartum"&&s.year==="2026"&&s.pp2026==="pp_problem"); }
+
+/* ---------- Procedures and tests ---------- */
+var PROCS = {
+  "58100":"Endometrial biopsy",
+  "58300":"IUD insertion",
+  "58301":"IUD removal",
+  "11981":"Contraceptive implant insertion",
+  "11982":"Contraceptive implant removal",
+  "11983":"Implant removal with reinsertion",
+  "57452":"Colposcopy of cervix",
+  "57454":"Colposcopy with biopsy and ECC",
+  "57455":"Colposcopy with cervical biopsy",
+  "57456":"Colposcopy with ECC",
+  "57460":"Colposcopy with loop electrode biopsy",
+  "57461":"Colposcopy with loop electrode conization",
+  "57420":"Colposcopy of vagina",
+  "57421":"Colposcopy of vagina with biopsy",
+  "57500":"Cervical biopsy (no colposcopy)",
+  "57505":"Endocervical curettage (no colposcopy)",
+  "57511":"Cryocautery of cervix",
+  "56605":"Vulvar biopsy, one lesion",
+  "56420":"I&D Bartholin gland abscess",
+  "56440":"Marsupialization of Bartholin cyst",
+  "57160":"Pessary fitting and insertion",
+  "58340":"Catheter for saline infusion sonohysterography",
+  "58555":"Diagnostic hysteroscopy",
+  "58558":"Hysteroscopy with biopsy/polypectomy"
+};
+var TESTS = {
+  "76801":"OB ultrasound <14 wk, transabdominal",
+  "76805":"OB ultrasound ≥14 wk, transabdominal",
+  "76811":"OB ultrasound, detailed anatomy",
+  "76815":"OB ultrasound, limited",
+  "76816":"OB ultrasound, follow-up",
+  "76817":"OB ultrasound, transvaginal",
+  "76818":"Biophysical profile with NST",
+  "76819":"Biophysical profile without NST",
+  "59025":"Fetal non-stress test",
+  "76830":"Transvaginal ultrasound, non-OB",
+  "76856":"Pelvic ultrasound, complete",
+  "76857":"Pelvic ultrasound, limited",
+  "76831":"Saline infusion sonohysterography"
+};
+
+/* ---------- Encounter types by setting ---------- */
+var ENC = {
+  "office":[["problem","GYN visit or procedure (not pregnant)"],["prenatal","Prenatal"],["postpartum","Postpartum"],["preventive","Annual exam"]],
+  "tele_av":[["problem","GYN visit or procedure (not pregnant)"],["prenatal","Prenatal"],["postpartum","Postpartum"]],
+  "tele_ao":[["problem","GYN visit or procedure (not pregnant)"],["prenatal","Prenatal"],["postpartum","Postpartum"]],
+  "triage":[["triage_home","Seen and sent home"],["obs","Placed in observation"],["triage_admit","Admitted, not in labor"],["labor","Admitted for labor/delivery"]],
+  "inpatient":[["labor","Labor / delivery"],["ip_antepartum","Antepartum (not in labor)"],["ip_postpartum","Postpartum day"],["ip_consult","Consult"]],
+  "obs":[["obs","Observation care"]],
+  "ed":[["ed_consult","ED consult"]],
+  "or":[["cesarean","Cesarean"],["gyn_surgery","Other GYN surgery"]]
+};
+
+function isOfficeLike(st){ return st==="office"||st==="tele_av"||st==="tele_ao"; }
+
+/* ---------- Which questions apply ---------- */
+function needsEM(s){
+  var e=s.enc, y=s.year;
+  if(!e) return false;
+  if(e==="problem"||e==="triage_home"||e==="obs"||e==="ip_antepartum"||e==="triage_admit"||e==="ip_postpartum"||e==="ip_consult"||e==="ed_consult") return true;
+  if(e==="prenatal") return y==="2027" || s.ante2026==="few" || s.ante2026==="problem_beyond";
+  if(e==="postpartum") return y==="2027" || s.pp2026==="pp_problem";
+  if(e==="preventive") return s.sepProblem==="yes";
+  if(e==="procedure") return false;
+  return false;
+}
+function emTableKey(s){
+  var e=s.enc;
+  if(e==="ed_consult") return (s.payer==="Medicare")?"ed":"consult_op";
+  if(e==="ip_consult") return (s.payer==="Medicare")?(s.ipType==="subsequent"?"ip_sub":"ip_initial"):(s.ipType==="subsequent"?"ip_sub":"consult_ip");
+  if(e==="triage_admit") return "ip_initial";
+  if(e==="obs"||e==="ip_antepartum"){
+    if(s.ipType==="subsequent") return "ip_sub";
+    if(s.ipType==="same_day") return "ip_sameday";
+    if(s.ipType==="discharge") return "discharge";
+    return "ip_initial";
+  }
+  if(e==="ip_postpartum") return s.ipType==="discharge"?"discharge":"ip_sub";
+  return s.ptStatus==="new"?"office_new":"office_est";
+}
+
+
+/* Commonly associated office services: id -> {label, codes(payer) , note, inj (needs admin/E/M-25)} */
+var ADDONS = {
+  venip:{label:"Blood drawn in office",codes:function(){return [{code:"36415",label:"Venipuncture"}];},note:"Venipuncture performed."},
+  upt:{label:"Urine pregnancy test",codes:function(){return [{code:"81025",label:"Urine pregnancy test, visual"}];},note:"Urine hCG: ___ (positive / negative)."},
+  uadip:{label:"Urine dipstick",codes:function(){return [{code:"81002",label:"Urinalysis, dipstick, non-automated"}];},note:"Urine dipstick: ___ (result)."},
+  wetmount:{label:"Wet mount read in office",codes:function(){return [{code:"87210",label:"Wet mount for infectious agents"}];},note:"Wet mount: ___ (result)."},
+  hgb:{label:"Point-of-care hemoglobin",codes:function(){return [{code:"85018",label:"Hemoglobin"}];},note:"Hemoglobin (point of care): ___ g/dL."},
+  rhig:{label:"Rh immune globulin injection",inj:true,codes:function(){return [{code:"96372",label:"IM injection"},{code:"J2790",label:"Rho(D) immune globulin, 300 mcg"}];},note:"Rh immune globulin 300 mcg IM given. Indication: Rh negative, ___ (28 weeks / bleeding / procedure)."},
+  depo:{label:"Depo-Provera injection",inj:true,codes:function(){return [{code:"96372",label:"IM injection"},{code:"J1050",label:"Medroxyprogesterone acetate, 1 mg",units:150}];},note:"Medroxyprogesterone 150 mg IM given."},
+  tdap:{label:"Tdap vaccine",vax:true,codes:function(){return [{code:"90715",label:"Tdap vaccine"}];},note:"Tdap vaccine IM given; lot ___; VIS provided."},
+  flu:{label:"Flu vaccine",vax:true,codes:function(){return [{code:"Flu code",label:"Influenza vaccine product code (per vaccine supplied)"}];},note:"Influenza vaccine IM given; lot ___; VIS provided."},
+  rsv:{label:"RSV vaccine (32–36 weeks)",vax:true,codes:function(){return [{code:"90678",label:"RSV vaccine, preF, bivalent"}];},note:"RSV vaccine IM given at ___ weeks; lot ___; VIS provided."},
+  hpv:{label:"HPV vaccine",vax:true,codes:function(){return [{code:"90651",label:"HPV vaccine, 9-valent"}];},note:"HPV vaccine IM given, dose ___; lot ___; VIS provided."},
+  depscr:{label:"Depression screen (EPDS / PHQ-9)",codes:function(){return [{code:"96127",label:"Brief emotional/behavioral assessment"}];},note:"Depression screen: ___ (EPDS / PHQ-9) score ___."},
+  tob3:{label:"Tobacco counseling 3–10 min",codes:function(){return [{code:"99406",label:"Tobacco cessation counseling, 3–10 min"}];},note:"Tobacco cessation counseling: ___ minutes."},
+  tob10:{label:"Tobacco counseling >10 min",codes:function(){return [{code:"99407",label:"Tobacco cessation counseling, >10 min"}];},note:"Tobacco cessation counseling: ___ minutes; discussed ___ (risks, plan, pharmacotherapy)."}
+};
+var ADDON_SETS = {
+  prenatal:["venip","uadip","hgb","rhig","tdap","flu","rsv","depscr","tob3","tob10"],
+  postpartum:["venip","depscr","depo","flu","tdap","tob3","tob10"],
+  problem:["upt","uadip","wetmount","venip","depo","flu","depscr","tob3","tob10"],
+  preventive:["venip","upt","uadip","flu","hpv","tdap","depscr","tob3","tob10"]
+};
+
+/* ---------- Procedure note templates ---------- */
+var PROC_NOTE = {
+  "58100":"Endometrial biopsy. Indication: ___. Findings: ___ (tissue obtained). Specimen to pathology.",
+  "58300":"IUD insertion: ___ (device). Indication: ___. Uterus sounded to ___ cm.",
+  "58301":"IUD removal. Indication: ___. Device removed ___ (intact / not intact).",
+  "11981":"Contraceptive implant inserted, ___ arm. Indication: ___.",
+  "11982":"Contraceptive implant removed, ___ arm. Indication: ___.",
+  "11983":"Contraceptive implant removed and new implant inserted, ___ arm.",
+  "57452":"Colposcopy of cervix. Indication: ___. Findings: ___. Impression: ___.",
+  "57454":"Colposcopy with biopsy and ECC. Indication: ___. Findings: ___. Biopsies: ___ o'clock. ECC performed.",
+  "57455":"Colposcopy with cervical biopsy. Indication: ___. Findings: ___. Biopsies: ___ o'clock.",
+  "57456":"Colposcopy with ECC. Indication: ___. Findings: ___. ECC performed.",
+  "57460":"Colposcopy with loop electrode biopsy. Indication: ___. Findings: ___. Loop biopsy of ___.",
+  "57461":"Colposcopy with LEEP conization. Indication: ___. Findings: ___. Loop ___ cm; cone to pathology.",
+  "57420":"Colposcopy of vagina. Indication: ___. Findings: ___.",
+  "57421":"Colposcopy of vagina with biopsy. Indication: ___. Findings: ___. Biopsy of ___.",
+  "57500":"Cervical biopsy. Indication: ___. Site: ___.",
+  "57505":"Endocervical curettage. Indication: ___. Specimen to pathology.",
+  "57511":"Cervical cryotherapy. Indication: ___. Findings: ___.",
+  "56605":"Vulvar biopsy, 1 lesion. Indication: ___. Site: ___.",
+  "56420":"Incision and drainage, ___ Bartholin abscess. Findings: ___ (abscess size, drainage).",
+  "56440":"Marsupialization, ___ Bartholin cyst. Findings: ___.",
+  "57160":"Pessary fitted and inserted: ___ (type, size). Indication: ___.",
+  "58340":"Catheter placed and saline instilled for sonohysterography. Indication: ___.",
+  "58555":"Diagnostic hysteroscopy. Indication: ___. Findings: ___.",
+  "58558":"Hysteroscopy with ___ (biopsy / polypectomy). Indication: ___. Findings: ___."
+};
+var TEST_NOTE = {
+  "59025":"NST interpretation: ___ (reactive / nonreactive); baseline ___, variability ___, decelerations ___.",
+  "76818":"BPP with NST: ___/10.",
+  "76819":"BPP without NST: ___/8."
+};
+function testNote(c){ return TEST_NOTE[c] || (TESTS[c]+": signed report — ___ (impression)."); }
+
+/* ---------- Main compute ---------- */
+function compute(s){
+  var R={codes:[],extra:[],dx:[],why:[],flags:[],note:[],incomplete:[],scope:null,next:null};
+  var y=s.year, e=s.enc, st=s.setting, payer=s.payer;
+  if(!e){ R.incomplete.push("Choose the encounter type."); return R; }
+  var pregnant = (e==="prenatal"||e==="labor"||e==="cesarean"||e==="triage_home"||e==="ip_antepartum"||e==="triage_admit"||((e==="obs"||e==="ed_consult"||e==="ip_consult") && s.pregnant==="yes"));
+  var hasProc = st==="office" && (s.procs||[]).length>0;
+  var adds = (st==="office") ? (s.addons||[]).filter(function(a){return a!=="none" && ADDONS[a];}) : [];
+  var hasInj = adds.some(function(a){return ADDONS[a].inj;}), hasVax = adds.some(function(a){return ADDONS[a].vax;});
+  if(st==="office" && ADDON_SETS[e] && !(s.addons||[]).length) R.incomplete.push("Also done today? Choose items or None.");
+  var resident = s.resident==="yes";
+
+  if(e==="gyn_surgery"){
+    R.scope="Surgical coding needs the operative note. Send it to coding. See the Modifiers tab (22, 51, 59/XS, 62, 80/82/AS; 57 on the decision-for-surgery visit).";
+    if(resident) R.note.push("Teaching physician: present for the key and critical portions and immediately available throughout.");
+    return R;
+  }
+  if(e==="labor"||e==="cesarean") laborDelivery(s,R);
+
+  /* Preventive */
+  if(e==="preventive"){
+    var age=num(s.age);
+    if(!s.ptStatus) R.incomplete.push("New or established?");
+    if(!age) R.incomplete.push("Enter age.");
+    if(payer==="Medicare"){
+      R.codes.push({code:"G0101",mods:[],label:"Pelvic and breast exam, cancer screening"});
+      if(s.pap==="yes") R.codes.push({code:"Q0091",mods:[],label:"Screening Pap obtained"});
+      R.why.push("Medicare: G0101/Q0091 replace preventive visit codes.");
+      R.flags.push("Medicare frequency: every 24 months (12 if high risk).");
+    } else if(age && s.ptStatus){
+      var band = age<12?null: age<18?["99384","99394","12–17"]: age<40?["99385","99395","18–39"]: age<65?["99386","99396","40–64"]:["99387","99397","65+"];
+      if(!band) R.incomplete.push("Under 12: outside this tool.");
+      else { R.codes.push({code:s.ptStatus==="new"?band[0]:band[1],mods:hasProc?["25"]:[],label:"Preventive visit, "+(s.ptStatus==="new"?"new":"established")+", age "+band[2]}); R.why.push("Preventive codes go by age and new/established status."); }
+    }
+    if(payer==="Medicaid (NJ FamilyCare / Medicaid MCO)" && age && age<21) R.flags.push("Medicaid under 21: EPSDT rules may apply.");
+    R.dx.push({code:s.abnl==="yes"?"Z01.411":"Z01.419",label:"Gynecologic exam "+(s.abnl==="yes"?"with":"without")+" abnormal findings"});
+    R.note.push("Preventive exam with age-appropriate history, exam, and counseling: ___ (topics)."+(s.pap==="yes"?" Cervical cytology obtained.":""));
+  }
+
+  /* 2026 package logic */
+  if(e==="prenatal" && y==="2026"){
+    if(!s.ante2026) R.incomplete.push("How is this 2026 prenatal visit billed?");
+    if(s.ante2026==="routine_global"){
+      R.codes.push({code:"—",mods:[],label:"No separate code: counts toward the prenatal package"});
+      R.why.push("2026: routine visits bill as a package (59425 for 4–6, 59426 for 7+).");
+      R.flags.push("Due in 2027? 2026 visits still bill under 2026 rules.");
+      R.note.push("Routine prenatal visit at ___ weeks.");
+    }
+  }
+  if(e==="postpartum" && y==="2026"){
+    if(!s.pp2026) R.incomplete.push("How is postpartum care billed?");
+    if(s.pp2026==="pp_included"){ R.codes.push({code:"—",mods:[],label:"No separate code: included in the delivery package"}); R.why.push("2026: routine postpartum care is in the global."); R.note.push("Routine postpartum visit. ___ (assessment and plan)."); }
+    if(s.pp2026==="pp_only"){ R.codes.push({code:"59430",mods:[],label:"Postpartum care only"}); R.why.push("2026: postpartum care only, reported once."); R.note.push("Routine postpartum visit. ___ (assessment and plan)."); }
+  }
+
+  /* E/M */
+  if(needsEM(s)){
+    var key=emTableKey(s);
+    if(key==="discharge"){
+      var dt=num(s.time);
+      if(!dt) R.incomplete.push("Enter discharge-day time.");
+      else {
+        R.codes.push({code:dt>30?"99239":"99238",mods:resident?["GC"]:[],label:"Discharge day, "+(dt>30?">30 min":"≤30 min")});
+        R.why.push("Discharge codes go by total time.");
+        if(dt<=30) R.next={code:"99239",time:31,items:[],need:0};
+      }
+      if(e==="ip_postpartum") R.flags.push("Not on the delivery date.");
+      R.note.push("Discharge day management; total time "+(dt?dt:"___")+" minutes.");
+    } else {
+      if((key==="office_new"||key==="office_est") && !s.ptStatus) R.incomplete.push("New or established?");
+      var em=emCode(key,s);
+      if(!em.code){ R.incomplete.push("Choose the problem and the management, or enter time."); }
+      else {
+        var code=em.code, mods=[];
+        if(st==="tele_av"||st==="tele_ao"){ mods.push(st==="tele_av"?"95":"93"); var tk=(st==="tele_av"?"av_":"ao_")+(s.ptStatus==="new"?"new":"est"); R.flags.push("Telehealth: some payers want "+TELE[tk][em.idx]+" instead."); }
+        var with25 = (hasProc && e!=="procedure") || e==="preventive" || hasInj || hasVax;
+        if(hasProc && s.sepEM!=="yes" && e!=="preventive"){ R.flags.push("No visit code: the decision to do the procedure is included in it."); code=null; }
+        if(code){
+          if(with25) mods.push("25");
+          if(e==="prenatal"||e==="postpartum") mods.push("TH");
+          if(resident) mods.push("GC");
+          R.codes.unshift({code:code,mods:mods,label:em.label});
+          R.why.unshift(em.why);
+          if(e==="prenatal"||e==="postpartum") R.flags.push("TH: confirm the payer wants it.");
+          if(e==="triage_admit") R.flags.push("Triage evaluation is included in the admission code (same date, same group).");
+          if(e==="ed_consult") R.why.push(payer==="Medicare"?"Medicare: ED codes (no consult codes).":"Consult codes: another physician requested the opinion.");
+          if(e==="ip_consult" && payer==="Medicare") R.why.push("Medicare: hospital care codes (no consult codes).");
+          var t=num(s.time);
+          if(em.basis==="time" && (code==="99205"||code==="99215")){
+            var base = payer==="Medicare" ? (code==="99205"?74:54) : (code==="99205"?60:40), u=Math.floor((t-base)/15);
+            if(u>=1) R.codes.push({code:payer==="Medicare"?"G2212":"99417",mods:[],label:"Prolonged time, each 15 min",units:u});
+          }
+          if(payer==="Medicare" && (key==="office_new"||key==="office_est") && s.longitudinal==="yes"){
+            if(with25 && e!=="preventive" && (hasProc || hasInj)) R.flags.push("No G2211 with modifier 25 (except with preventive services or vaccines).");
+            else R.codes.push({code:"G2211",mods:[],label:"Visit complexity add-on"});
+          }
+          R.next=nextLevel(key,s,em);
+          R.note = R.note.concat(emNote(s,em));
+        }
+      }
+    }
+  }
+
+  /* Procedures */
+  if(st==="office" && (s.procs||[]).length){
+    s.procs.forEach(function(c){ R.codes.push({code:c,mods:resident?["GC"]:[],label:PROCS[c]}); R.note.push(PROC_NOTE[c]||(PROCS[c]+". Indication: ___. Findings: ___.")); });
+    if(s.procs.indexOf("58300")>=0) R.extra.push({code:"J-code",label:"IUD supply",req:"if the practice supplied it"});
+    if(s.procs.indexOf("11981")>=0||s.procs.indexOf("11983")>=0) R.extra.push({code:"J7307",label:"Implant supply",req:"if the practice supplied it"});
+    if(s.procs.indexOf("58340")>=0 && (s.tests||[]).indexOf("76831")<0) R.extra.push({code:"76831",label:"Sonohysterography",req:"if performed and read"});
+    if(s.procs.length>1) R.flags.push("Multiple procedures: 51 or 59/XS may apply.");
+  }
+  /* Add-on services */
+  if(adds.length){
+    var nvax=0;
+    adds.forEach(function(a){
+      var A=ADDONS[a];
+      A.codes(payer).forEach(function(c){ R.codes.push({code:c.code,mods:[],label:c.label,units:c.units}); });
+      if(A.vax) nvax++;
+      R.note.push(A.note);
+    });
+    var dxa=[];
+    if(hasVax) dxa.push({code:"Z23",label:"Encounter for immunization"});
+    if(adds.indexOf("rhig")>=0) dxa.push({code:"Z29.13",label:"Encounter for prophylactic Rho(D) immune globulin"});
+    if(adds.indexOf("depscr")>=0) dxa.push((e==="prenatal"||e==="postpartum")?{code:"Z13.32",label:"Encounter for screening for maternal depression"}:{code:"Z13.31",label:"Encounter for screening for depression"});
+    if(adds.indexOf("tob3")>=0||adds.indexOf("tob10")>=0) dxa.push({code:"F17.210",label:"Nicotine dependence, cigarettes (adjust product)"});
+    if(adds.indexOf("depo")>=0) dxa.push({code:"Z30.42",label:"Encounter for surveillance of injectable contraceptive"});
+    R.addDx=dxa;
+    if(nvax){
+      if(payer==="Medicare" && adds.indexOf("flu")>=0){ R.codes.push({code:"G0008",mods:[],label:"Flu vaccine administration (Medicare)"}); nvax--; }
+      if(nvax>0) R.codes.push({code:"90471",mods:[],label:"Vaccine administration, first"});
+      if(nvax>1) R.codes.push({code:"90472",mods:[],label:"Vaccine administration, each additional",units:nvax-1>1?nvax-1:undefined});
+    }
+    if((hasInj||hasVax) && needsEM(s)) R.flags.push("Visit gets -25 when billed with an injection or vaccine administration.");
+  }
+  /* Tests */
+  if((s.tests||[]).length){
+    var fac = st!=="office";
+    s.tests.forEach(function(c){ R.codes.push({code:c,mods:fac?["26"]:[],label:TESTS[c]}); R.note.push(testNote(c)); });
+    if(needsEM(s)) R.flags.push("A test billed here can't also count as E/M data.");
+  }
+
+  /* Diagnosis: pregnancy (non-delivery) */
+  if(pregnant && e!=="labor" && e!=="cesarean"){
+    var ga=num(s.ga), tri=trimester(ga), z=z3a(ga);
+    var comp = forcedComplication(s) || s.complication==="yes";
+    if(!ga) R.incomplete.push("Enter gestational age.");
+    else if(comp){
+      if(!(s.conds||[]).length) R.incomplete.push("Choose the condition(s).");
+      else { var cc=condCodes(PCOND,s.conds,tri,ga); R.dx=cc.codes.concat(R.dx); cc.bad.forEach(function(b){R.flags.push(b+": not valid at this gestational age.");}); }
+    } else if(s.complication==="no" && e==="prenatal"){
+      R.dx.unshift({code:(s.firstPreg==="yes"?"Z34.0":"Z34.8")+tri,label:"Normal "+(s.firstPreg==="yes"?"first":"other")+" pregnancy, "+TRI[tri]});
+    }
+    if(z) R.dx.push(z);
+  }
+  /* Diagnosis: postpartum */
+  if(e==="postpartum"){
+    var pcomp = forcedComplication(s) || s.complication==="yes";
+    if(pcomp){ if(!(s.ppconds||[]).length) R.incomplete.push("Choose the condition(s)."); else R.dx=condCodes(PPCOND,s.ppconds).codes.concat(R.dx); }
+    else R.dx.unshift({code:"Z39.2",label:"Routine postpartum follow-up"});
+  }
+  /* Diagnosis: GYN */
+  if(e==="problem"||e==="procedure"||((e==="ed_consult"||e==="ip_consult"||e==="obs")&&s.pregnant==="no")){
+    var g=[]; GCOND.forEach(function(c){ if((s.gconds||[]).indexOf(c[0])>=0) g=g.concat(c[2]); });
+    if(g.length) R.dx=g.concat(R.dx); else R.incomplete.push("Choose the condition(s).");
+  }
+
+  if(R.addDx) R.dx=R.dx.concat(R.addDx);
+  if(resident && (needsEM(s)||hasProc)) R.note.push("Teaching physician: present for the key portions; agree with the resident's note.");
+  if(resident && needsEM(s)) R.flags.push("Resident: only teaching-physician time counts.");
+  return R;
+}
+
+/* ---------- Labor and delivery ---------- */
+function laborDelivery(s,R){
+  var y=s.year, resident=s.resident==="yes";
+  var dt = s.enc==="cesarean" ? (s.csKind||"") : (s.delivery||"");
+  var labored = s.enc==="cesarean" ? (s.csLabor==="yes") : (s.laborToday==="yes");
+  if(s.enc==="labor" && !s.laborToday) R.incomplete.push("Did your group manage labor today?");
+  if(s.enc==="cesarean" && !s.csLabor) R.incomplete.push("Labor before the cesarean?");
+  if(s.enc==="cesarean" && !s.csKind) R.incomplete.push("Primary or repeat?");
+  if(s.enc==="labor" && !s.delivery) R.incomplete.push("Delivery today?");
+  var ga=num(s.ga), tri=trimester(ga), z=z3a(ga);
+  var nVag=Math.max(1,num(s.nVag)||1);
+  var isCS = dt==="cs_primary"||dt==="cs_repeat"||dt==="cs_after_tolac";
+  var GC=resident?["GC"]:[];
+  var ex=(s.ldExtras||[]).filter(function(x){return x!=="none";});
+  if((s.delivery&&s.delivery!=="none"||s.enc==="cesarean"&&s.csKind) && !(s.ldExtras||[]).length) R.incomplete.push("Also done? Choose items or None.");
+
+  if(y==="2027"){
+    if(labored){
+      if(!s.laborDay) R.incomplete.push("Initial or subsequent labor day?");
+      var sf=["sf1","sf2","sf3","sf4","sf5","sf6"].every(function(k){return (s.sf||[]).indexOf(k)>=0;});
+      var complex = !sf || isCS || dt==="vbac" || num(s.nFetus)>1;
+      var initial = s.laborDay==="initial";
+      if(s.laborDay){
+        R.codes.push({code:initial?(complex?"59081":"59080"):(complex?"59083":"59082"),mods:GC,label:(initial?"Initial":"Subsequent")+" day labor management, "+(complex?"complex":"straightforward")});
+        R.why.push((initial?"Initial":"Subsequent")+" labor day; "+(complex?"complex"+(isCS?" (labor → cesarean)":""):"all 6 straightforward criteria met")+".");
+        if(complex){
+          var map={sf1:"Malpresentation or multiple gestation: ___.",sf2:"Non-routine monitoring: ___ (e.g., IUPC, FSE) because ___.",sf3:"FHR ___ (e.g., category II, recurrent variables) requiring ___ (intervention).",sf4:"Labor progression: ___ (arrest / protraction / non-routine induction) — management: ___.",sf5:"___ (condition, e.g., preeclampsia, GDM) requiring ___ (management) during labor.",sf6:"Previous cesarean: TOLAC managed; ___."};
+          var lines=[]; ["sf1","sf2","sf3","sf4","sf5","sf6"].forEach(function(k){ if((s.sf||[]).indexOf(k)<0) lines.push(map[k]); });
+          if(isCS) lines.push("Decision for cesarean during labor: ___ (indication).");
+          R.note.push("Labor management, "+(initial?"initial":"subsequent")+" day — complex:\n"+lines.map(function(l){return "• "+l;}).join("\n"));
+        } else {
+          R.note.push("Labor management, "+(initial?"initial":"subsequent")+" day: ___ (exam, labor progress, FHR).");
+          R.next={code:initial?"59081":"59083",time:null,need:1,items:["Any straightforward criterion not met — e.g., FHR needing intervention, abnormal progress, non-routine induction, or a condition managed during labor"]};
+        }
+        R.flags.push("No hospital E/M by your group on a labor-management date.");
+      }
+    }
+    if(dt==="vaginal") R.codes.push({code:"59431",mods:GC,label:"Vaginal delivery",units:nVag>1?nVag:undefined});
+    if(dt==="vbac") R.codes.push({code:"59432",mods:GC,label:"VBAC",units:nVag>1?nVag:undefined});
+    if(dt==="cs_primary") R.codes.push({code:"59502",mods:GC,label:"Cesarean, primary"});
+    if(dt==="cs_repeat"||dt==="cs_after_tolac") R.codes.push({code:"59503",mods:GC,label:"Cesarean, repeat"});
+    if(ex.indexOf("lac3a")>=0||ex.indexOf("lac3b")>=0||ex.indexOf("lac3c")>=0) R.codes.push({code:"59433",mods:[],label:"3rd-degree repair"});
+    if(ex.indexOf("lac4")>=0) R.codes.push({code:"59434",mods:[],label:"4th-degree repair"});
+    if(ex.indexOf("tamponade")>=0) R.codes.push({code:"59623",mods:[],label:"Uterine tamponade"});
+    if(ex.indexOf("hyst")>=0 && isCS) R.codes.push({code:"59504",mods:["51"],label:"Hysterectomy after cesarean"});
+    if(ex.indexOf("tubal")>=0 && isCS) R.codes.push({code:"58611",mods:[],label:"Tubal at cesarean"});
+    if(!labored && isCS) R.why.push("Scheduled cesarean: no labor code.");
+    if(dt && dt!=="none") R.flags.push("Same-day postpartum care is included; no discharge code on the delivery date.");
+  } else {
+    R.why.push("2026: labor is included in the delivery code.");
+    if(dt && dt!=="none"){
+      if(!s.pkg) R.incomplete.push("Global, delivery only, or delivery + postpartum?");
+      var fam={vaginal:["59400","59409","59410","vaginal delivery"],vbac:["59610","59612","59614","VBAC"],cs_primary:["59510","59514","59515","cesarean"],cs_repeat:["59510","59514","59515","cesarean"],cs_after_tolac:["59618","59620","59622","cesarean after attempted VBAC"]}[dt];
+      if(fam && s.pkg){ var i=s.pkg==="global"?0:s.pkg==="delivery_only"?1:2; R.codes.push({code:fam[i],mods:GC,label:["Global: ","",""][i]+fam[3]+[" + prenatal + postpartum"," only"," + postpartum"][i]}); }
+      if(ex.indexOf("hyst")>=0 && isCS) R.codes.push({code:"59525",mods:[],label:"Hysterectomy after cesarean"});
+      if(ex.indexOf("tubal")>=0 && isCS) R.codes.push({code:"58611",mods:[],label:"Tubal at cesarean"});
+      if(ex.indexOf("tamponade")>=0) R.flags.push("Tamponade: no 2026 code; ask coding.");
+      if(ex.indexOf("lac3a")>=0||ex.indexOf("lac3b")>=0||ex.indexOf("lac3c")>=0||ex.indexOf("lac4")>=0) R.flags.push("2026: repair included; modifier 22 only if documented extra work.");
+    } else R.flags.push("2026: no delivery = no delivery code; ask coding.");
+  }
+  if(dt==="vaginal"||dt==="vbac") R.note.push((dt==="vbac"?"Vaginal birth after cesarean":"Vaginal delivery")+" of "+nVag+" infant"+(nVag>1?"s":"")+".");
+  if(isCS) R.note.push((dt==="cs_primary"?"Primary":"Repeat")+" cesarean (operative note). Indication: ___.");
+  if(ex.indexOf("lac3a")>=0||ex.indexOf("lac3b")>=0||ex.indexOf("lac3c")>=0||ex.indexOf("lac4")>=0) R.note.push((ex.indexOf("lac4")>=0?"Fourth-degree laceration":"Third-degree laceration ("+(ex.indexOf("lac3a")>=0?"IIIa":ex.indexOf("lac3b")>=0?"IIIb":"IIIc")+")")+" repaired.");
+  if(ex.indexOf("lac1")>=0||ex.indexOf("lac2")>=0) R.note.push((ex.indexOf("lac2")>=0?"Second":"First")+"-degree laceration repaired.");
+  if(ex.indexOf("tamponade")>=0) R.note.push("Uterine tamponade for postpartum hemorrhage: ___ (balloon / packing).");
+  if(ex.indexOf("tubal")>=0 && isCS) R.note.push("Bilateral ___ (salpingectomy / tubal ligation) at cesarean.");
+  if(resident) R.note.push("Teaching physician: present for the delivery"+(isCS?" and the key portions of the cesarean":"")+".");
+  var lc=condCodes(LCOND,s.lconds,tri,ga); lc.bad.forEach(function(b){R.flags.push(b+": not valid at this gestational age.");});
+  var dxl=lc.codes.slice();
+  Object.keys(LAC).forEach(function(k){ if(ex.indexOf(k)>=0) dxl.push({code:LAC[k][0],label:LAC[k][1]}); });
+  var vag = dt==="vaginal"||dt==="vbac";
+  var lacAny = Object.keys(LAC).some(function(k){return ex.indexOf(k)>=0;});
+  var cplx = R.codes.some(function(c){return c.code==="59081"||c.code==="59083";});
+  if(!ga) R.incomplete.push("Enter gestational age.");
+  if(!(s.lconds||[]).length){
+    if(vag && dt==="vaginal" && ga>=37 && ga<42 && num(s.nFetus)<=1 && !lacAny && !cplx && !(ex.indexOf("tamponade")>=0)) dxl.unshift({code:"O80",label:"Full-term uncomplicated delivery (no other O-codes allowed)"});
+    else R.incomplete.push(cplx?"Choose the diagnosis that made labor complex.":"Choose the diagnosis or indication.");
+  }
+  if(dt && dt!=="none") dxl.push({code:num(s.nFetus)>1?"Z37.2":"Z37.0",label:num(s.nFetus)>1?"Twins, both liveborn (adjust if not)":"Single live birth"});
+  R.dx = dxl.concat(R.dx);
+  if(z) R.dx.push(z);
+}
+
+/* ---------- E/M note ---------- */
+function emNote(s,em){
+  var L=[], p=s.problemText||"___ (problem)", m=em.mdm, lvl=em.idx;
+  var pn=optNote(PROBOPTS,s.problemChoice);
+  L.push(pn?pn.replace("{p}",p):(p+": ___ (assessment)."));
+  if(em.basis==="time"){ L.push("Total time today: "+em.time+" minutes."); return L; }
+  // choose the two supporting elements, preferring problem + risk (least to write)
+  var ok={p:LV.indexOf(m.p)>=lvl, d:LV.indexOf(m.d)>=lvl, r:LV.indexOf(m.r)>=lvl};
+  var useD = ok.d && !(ok.p && ok.r);
+  var useR = ok.r && (ok.p || !useD || true);
+  if(ok.p && ok.r) useD=false;
+  if(!ok.p){ useD=ok.d; useR=ok.r; }
+  if(!ok.r){ useD=ok.d; useR=false; }
+  if(useD){
+    for(var i=0;i<num(s.notesN);i++) L.push("Reviewed ___ (source) note: ___ (key finding).");
+    var nr=num(s.resultsN); if(nr) L.push("Reviewed "+Array(nr+1).join("___ (test) ___; ").replace(/; $/,"")+".");
+    var no=num(s.ordersN); if(no) L.push("Ordered "+Array(no+1).join("___, ").replace(/, $/,"")+" (tests).");
+    if(s.historian) L.push("History from ___ (who) because ___.");
+    if(s.interp) L.push("Personally reviewed outside ___ (test): ___ (interpretation).");
+    if(s.discussion) L.push("Discussed management with ___ (clinician): ___.");
+  }
+  if(useR){ var rn=optNote(RISKOPTS,s.riskChoice); if(rn) L.push(rn); }
+  return L;
+}
+
+return {ADDONS:ADDONS, ADDON_SETS:ADDON_SETS, LCOND:LCOND, GCOND:GCOND, PCOND:PCOND, PPCOND:PPCOND, PROBOPTS:PROBOPTS, RISKOPTS:RISKOPTS, forcedComplication:forcedComplication, compute:compute, ENC:ENC, PROCS:PROCS, TESTS:TESTS, needsEM:needsEM, emTableKey:emTableKey, dataLevel:dataLevel, mdmLevel:mdmLevel, isOfficeLike:isOfficeLike};
+})();
+
+
+</script>
+<script>
+(function(){
+"use strict";
+var $=function(id){return document.getElementById(id);};
+var DISCLAIMER="CODING AID OUTPUT - NOT AN OFFICIAL BILLING DETERMINATION. Requires physician verification and coding review. No PHI.";
+var S={};
+var E=ENGINE;
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+function toast(m){var d=document.createElement("div");d.className="toast";d.textContent=m;document.body.appendChild(d);setTimeout(function(){d.remove();},1800);}
+
+/* Gate */
+var acked=false;try{acked=sessionStorage.getItem("hn_coding_aid_ack")==="1";}catch(e){}
+if(acked)$("gate").classList.add("hidden");
+$("nojs").style.display="none";
+function gateSync(){ $("gateBtn").style.opacity=$("gateChk").checked?"1":".55"; if($("gateChk").checked) $("gateMsg").classList.add("hidden"); }
+["change","click","input"].forEach(function(ev){ $("gateChk").addEventListener(ev,gateSync); });
+$("gateBtn").addEventListener("click",function(){ if(!$("gateChk").checked){ $("gateMsg").classList.remove("hidden"); return; } try{sessionStorage.setItem("hn_coding_aid_ack","1");}catch(e){} $("gate").classList.add("hidden"); });
+/* Tabs */
+document.querySelectorAll("nav.tabs button").forEach(function(b){b.addEventListener("click",function(){document.querySelectorAll("nav.tabs button").forEach(function(x){x.classList.remove("active");$("tab-"+x.dataset.tab).classList.add("hidden");});b.classList.add("active");$("tab-"+b.dataset.tab).classList.remove("hidden");});});
+
+/* PHI */
+var PHI=[/\b\d{3}-\d{2}-\d{4}\b/,/\b[\w.+-]+@[\w-]+\.[\w.]+\b/,/(\(\d{3}\)\s?|\b\d{3}[-.\s])\d{3}[-.\s]\d{4}\b/,/\b\d{1,2}[\/-]\d{1,2}[\/-]\d{2,4}\b/,/\b(mrn|dob|date of birth|ssn|account)\b/i,/\b\d{6,}\b/,/\b([Mm]rs?|[Mm]s|[Mm]iss)\.?\s+[A-Z][a-z]+/];
+function hasPHI(t){return PHI.some(function(r){return r.test(t);});}
+
+/* Year */
+function todayISO(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+var YEAR = todayISO()>="2027-01-01" ? "2027" : "2026";
+function paintYear(){ document.querySelectorAll("#yearSeg button").forEach(function(b){ b.classList.toggle("sel", b.dataset.y===YEAR); }); }
+document.querySelectorAll("#yearSeg button").forEach(function(b){ b.addEventListener("click",function(){ YEAR=b.dataset.y; paintYear(); syncTop(); build(); }); });
+paintYear();
+function syncTop(){ S.year=YEAR; S.setting=$("setting").value; S.payer=$("payer").value; $("rulesetTag").innerHTML='Uses <span class="pill '+(S.year==="2027"?"r27":"r26")+'">CPT '+S.year+'</span> rules'; }
+
+/* Helpers */
+var Y=function(){return [["yes","Yes"],["no","No"]];};
+function em(){return E.needsEM(S);}
+function emKey(){return E.emTableKey(S);}
+function mdmQ(){ if(S.setting==="office"&&(S.procs||[]).length&&S.enc!=="preventive"&&S.sepEM!=="yes") return false; return em() && S.ipType!=="discharge";}
+function labored(){return (S.enc==="labor"&&S.laborToday==="yes")||(S.enc==="cesarean"&&S.csLabor==="yes");}
+function deliv(){return S.enc==="cesarean"?S.csKind:S.delivery;}
+function isCS(){var d=deliv();return d==="cs_primary"||d==="cs_repeat"||d==="cs_after_tolac";}
+function pregCtx(){return S.enc==="prenatal"||S.enc==="triage_home"||S.enc==="triage_admit"||S.enc==="ip_antepartum"||((S.enc==="obs"||S.enc==="ed_consult"||S.enc==="ip_consult")&&S.pregnant==="yes");}
+var LVTAG={straightforward:"Min",low:"Low",moderate:"Mod",high:"High"};
+var PROCLIST=Object.keys(E.PROCS).map(function(k){return {id:k,label:E.PROCS[k],kind:"procs"};}).concat(Object.keys(E.TESTS).map(function(k){return {id:k,label:E.TESTS[k],kind:"tests"};}));
+
+/* ---------- Questions ---------- */
+var Q=[
+ {id:"enc",label:"Encounter",type:"radio",opts:function(){return E.ENC[S.setting]||[];},show:function(){return true;}},
+ {id:"pregnant",label:"Pregnant?",type:"radio",opts:Y,show:function(){return S.enc==="obs"||S.enc==="ed_consult"||S.enc==="ip_consult";}},
+ {id:"ante2026",label:"This 2026 prenatal visit is…",type:"radio",opts:function(){return [["routine_global","Routine (billed in package)"],["problem_beyond","For a problem beyond routine care"],["few","One of only 1–3 prenatal visits with us"]];},show:function(){return S.enc==="prenatal"&&S.year==="2026";}},
+ {id:"pp2026",label:"This 2026 postpartum visit is…",type:"radio",opts:function(){return [["pp_included","Routine; we billed delivery with postpartum"],["pp_only","Routine; we did not bill the delivery"],["pp_problem","For a problem beyond routine care"]];},show:function(){return S.enc==="postpartum"&&S.year==="2026";}},
+ {id:"age",label:"Age",type:"number",show:function(){return S.enc==="preventive";}},
+ {id:"pap",label:"Pap collected?",type:"radio",opts:Y,show:function(){return S.enc==="preventive";}},
+ {id:"abnl",label:"Abnormal exam findings?",type:"radio",opts:Y,show:function(){return S.enc==="preventive";}},
+ {id:"ptStatus",label:"Seen by our group in the last 3 years?",type:"radio",opts:function(){return [["est","Yes (established)"],["new","No (new)"]];},show:function(){var k=emKey();return S.enc==="preventive"||(em()&&(k==="office_new"||k==="office_est"));}},
+ {id:"ipType",label:"Hospital day",type:"radio",opts:function(){
+    if(S.enc==="ip_postpartum") return [["subsequent","Day after delivery"],["discharge","Discharge day"]];
+    if(S.enc==="ip_consult") return [["initial","First consult"],["subsequent","Follow-up"]];
+    return [["initial","Admission"],["subsequent","Follow-up day"],["same_day","Admit + discharge same day"],["discharge","Discharge day"]];},
+  show:function(){return S.enc==="obs"||S.enc==="ip_antepartum"||S.enc==="ip_postpartum"||S.enc==="ip_consult";}},
+ {id:"procsearch",label:"Procedures / ultrasound / NST (optional — only if performed)",type:"search",items:function(){return PROCLIST.filter(function(x){return x.kind==="tests"||S.setting==="office";});},
+   selected:function(){return (S.procs||[]).concat(S.tests||[]);},
+   show:function(){return S.enc && (S.setting==="office"&&S.enc!=="preventive"||S.setting==="office"&&S.enc==="preventive"||["triage_home","triage_admit","obs","ip_antepartum","ed_consult"].indexOf(S.enc)>=0);}},
+ {id:"addons",label:"Also done today? (choose all that apply, or None)",type:"multi",excl:"none",opts:function(){return [["none","None"]].concat((E.ADDON_SETS[S.enc]||[]).map(function(a){return [a,E.ADDONS[a].label];}));},show:function(){return S.setting==="office"&&!!E.ADDON_SETS[S.enc]&&!(S.enc==="prenatal"&&S.year==="2026"&&!S.ante2026)&&!(S.enc==="postpartum"&&S.year==="2026"&&!S.pp2026);}},
+ {id:"sepEM",label:"Was a separate problem also evaluated and managed (beyond deciding to do the procedure)?",type:"radio",opts:function(){return [["yes","Yes — bill a visit too (-25)"],["no","No — procedure only"]];},show:function(){return S.setting==="office"&&(S.procs||[]).length>0&&(S.enc==="problem"||S.enc==="prenatal"||S.enc==="postpartum");}},
+ {id:"sepProblem",label:function(){return (S.procs||[]).length?"Was a separate problem also evaluated and managed (beyond the exam and procedure)?":"Was a separate problem also evaluated and managed (beyond the exam)?";},type:"radio",opts:function(){return [["yes","Yes — bill a visit too (-25)"],["no","No"]];},show:function(){return S.enc==="preventive";}},
+ /* MDM */
+ {id:"problemText",label:"Problem name (optional — fills in the note; no identifiers)",type:"text",placeholder:"e.g., iron deficiency anemia",show:mdmQ,section:"Visit"},
+ {id:"problemChoice",label:"Problem status",type:"pick",opts:function(){return E.PROBOPTS.filter(function(o){return o[0]!=="p_preg"||(S.enc==="prenatal"&&S.year==="2027");});},show:mdmQ},
+ {id:"riskChoice",label:"Management",type:"pick",opts:function(){return E.RISKOPTS;},show:mdmQ},
+ {id:"dataBlock",label:"Data reviewed or ordered (optional)",type:"data",show:mdmQ},
+ {id:"time",label:function(){return S.ipType==="discharge"?"Discharge-day time (minutes)":"Total time today (optional — used only if it gives a higher level)";},type:"number",show:function(){return em()&&emKey()!=="ed";}},
+ {id:"longitudinal",label:"Ongoing primary or longitudinal care for this patient? (Medicare G2211)",type:"radio",opts:Y,show:function(){var k=emKey();return S.payer==="Medicare"&&em()&&(k==="office_new"||k==="office_est");}},
+ /* Labor */
+ {id:"yr2026note",label:"",type:"info",html:function(){return 'Using <b>2026 rules</b>: labor is included in the delivery code. For the 2027 labor-management codes, set Date of service to <button type="button" class="linkbtn" id="to2027">Jan 1, 2027 or later</button>.';},show:function(){return (S.enc==="labor"||S.enc==="cesarean")&&S.year==="2026";},section:"Labor & delivery"},
+ {id:"laborToday",label:"Managed labor today?",type:"radio",opts:Y,show:function(){return S.enc==="labor";},section:"Labor & delivery"},
+ {id:"csKind",label:"Cesarean",type:"radio",opts:function(){return [["cs_primary","Primary"],["cs_repeat","Repeat"],["cs_after_tolac","Repeat after failed TOLAC"]];},show:function(){return S.enc==="cesarean";},section:"Labor & delivery"},
+ {id:"csLabor",label:"In labor before the cesarean?",type:"radio",opts:Y,show:function(){return S.enc==="cesarean";}},
+ {id:"laborDay",label:"First labor day for our group this admission (or induction started today / transfer in)?",type:"radio",opts:function(){return [["initial","Yes — initial"],["subsequent","No — subsequent"]];},show:function(){return labored()&&S.year==="2027";}},
+ {id:"sf",label:"Check all that were true today",type:"multi",opts:function(){return [["sf1","Singleton, vertex"],["sf2","Routine monitoring"],["sf3","FHR needed no intervention"],["sf4","Normal progress / routine induction"],["sf5","No condition needing extra management"],["sf6","No prior cesarean"]];},show:function(){return labored()&&S.year==="2027";}},
+ {id:"delivery",label:"Delivery today?",type:"radio",opts:function(){return [["none","No"],["vaginal","Vaginal"],["vbac","VBAC"],["cs_primary","Primary cesarean"],["cs_repeat","Repeat cesarean"],["cs_after_tolac","Cesarean after failed TOLAC"]];},show:function(){return S.enc==="labor";}},
+ {id:"nFetus",label:"Number of fetuses (optional — default 1)",type:"number",show:function(){return S.enc==="labor"||S.enc==="cesarean";}},
+ {id:"nVag",label:"Number delivered vaginally",type:"number",show:function(){return (deliv()==="vaginal"||deliv()==="vbac")&&(+S.nFetus>1);}},
+ {id:"pkg",label:"We bill (2026)…",type:"radio",opts:function(){return [["global","Global"],["delivery_only","Delivery only"],["delivery_pp","Delivery + postpartum"]];},show:function(){return S.year==="2026"&&deliv()&&deliv()!=="none";}},
+ {id:"ldExtras",label:"Also done? (choose all that apply, or None)",type:"multi",excl:"none",opts:function(){var o=[["none","None"]];if(deliv()==="vaginal"||deliv()==="vbac")o.push(["lac1","1st-degree laceration"],["lac2","2nd-degree laceration"],["lac3a","3rd-degree IIIa"],["lac3b","3rd-degree IIIb"],["lac3c","3rd-degree IIIc"],["lac4","4th-degree"]);if(deliv()&&deliv()!=="none")o.push(["tamponade","Uterine tamponade"]);if(isCS())o.push(["hyst","Hysterectomy"],["tubal","Tubal / salpingectomy"]);return o;},show:function(){return deliv()&&deliv()!=="none";}},
+ /* Diagnosis */
+ {id:"ga",label:"Gestational age, weeks (sets the trimester and Z3A codes)",type:"number",show:function(){return pregCtx()||S.enc==="labor"||S.enc==="cesarean";},section:"Diagnosis"},
+ {id:"lconds",label:function(){return (labored()&&(S.sf||[]).length<6)||isCS()?"Diagnosis — what made it complex / the indication":"Diagnosis (leave blank if uncomplicated term vaginal birth)";},type:"csearch",list:function(){return E.LCOND;},show:function(){return S.enc==="labor"||S.enc==="cesarean";},section:"Diagnosis"},
+ {id:"complication",label:function(){return S.enc==="postpartum"?"Postpartum problem addressed?":"Pregnancy problem addressed?";},type:"radio",opts:Y,show:function(){return !E.forcedComplication(S)&&(pregCtx()||S.enc==="postpartum");},section:"Diagnosis"},
+ {id:"conds",label:"Condition",type:"csearch",list:function(){return E.PCOND;},show:function(){return pregCtx()&&(E.forcedComplication(S)||S.complication==="yes");}},
+ {id:"ppconds",label:"Condition",type:"csearch",list:function(){return E.PPCOND;},show:function(){return S.enc==="postpartum"&&(E.forcedComplication(S)||S.complication==="yes");}},
+ {id:"gconds",label:"Diagnosis",type:"csearch",list:function(){return E.GCOND;},show:function(){return S.enc==="problem"||S.enc==="procedure"||((S.enc==="obs"||S.enc==="ed_consult"||S.enc==="ip_consult")&&S.pregnant==="no");},section:"Diagnosis"},
+ {id:"firstPreg",label:"First pregnancy?",type:"radio",opts:Y,show:function(){return S.enc==="prenatal"&&S.complication==="no";}},
+ {id:"resident",label:"Resident involved?",type:"radio",opts:Y,show:function(){return !!S.enc;}}
+];
+
+/* ---------- Build ---------- */
+var building=false, pending=false;
+function schedule(){ if(pending) return; pending=true; setTimeout(function(){pending=false; build();},0); }
+function build(){
+  if(building) return;
+  var html="", last="";
+  Q.forEach(function(q){
+    if(!q.show()){ if(S[q.id]!==undefined) delete S[q.id]; if(q.id==="procsearch"){delete S.procs; delete S.tests;} return; }
+    if(q.section && q.section!==last){ html+='<div class="secthead">'+esc(q.section)+'</div>'; last=q.section; }
+    var lbl=typeof q.label==="function"?q.label():q.label, body="";
+    if(q.type==="info"){
+      body='<div class="infobox">'+q.html()+'</div>';
+    } else if(q.type==="radio"){
+      body='<div class="opts">'+q.opts().map(function(o){return '<button type="button" class="opt'+(S[q.id]===o[0]?" sel":"")+'" data-q="'+q.id+'" data-v="'+esc(o[0])+'">'+esc(o[1])+'</button>';}).join("")+'</div>';
+    } else if(q.type==="pick"){
+      body='<div class="picks">'+q.opts().map(function(o){return '<button type="button" class="pick'+(S[q.id]===o[0]?" sel":"")+'" data-q="'+q.id+'" data-v="'+o[0]+'"><span>'+esc(o[2])+'</span><i class="lv lv-'+o[1]+'">'+LVTAG[o[1]]+'</i></button>';}).join("")+'</div>';
+    } else if(q.type==="multi"){
+      var cur=S[q.id]||[];
+      body='<div class="opts">'+q.opts().map(function(o){return '<button type="button" class="opt tog'+(cur.indexOf(o[0])>=0?" sel":"")+'" data-m="'+q.id+'" data-v="'+esc(o[0])+'">'+(cur.indexOf(o[0])>=0?"✓ ":"")+esc(o[1])+'</button>';}).join("")+'</div>';
+    } else if(q.type==="number"){
+      body='<input type="number" min="0" inputmode="numeric" class="num" data-n="'+q.id+'" value="'+esc(S[q.id]||"")+'">';
+    } else if(q.type==="text"){
+      body='<input type="text" data-t="'+q.id+'" value="'+esc(S[q.id]||"")+'" placeholder="'+esc(q.placeholder||"")+'"><div class="phiwarn hidden" data-pw="'+q.id+'">Remove names, dates, numbers.</div>';
+    } else if(q.type==="search"||q.type==="csearch"){
+      var chips = q.type==="search" ? q.selected().map(function(id){var it=PROCLIST.filter(function(x){return x.id===id;})[0];return it?'<span class="chip">'+esc(it.label)+' <b>'+esc(id)+'</b><button type="button" data-rm="'+esc(id)+'" data-k="'+it.kind+'">×</button></span>':"";}).join("")
+        : (S[q.id]||[]).map(function(id){var it=q.list().filter(function(c){return c[0]===id;})[0];return it?'<span class="chip">'+esc(it[1])+'<button type="button" data-rmc="'+esc(id)+'" data-k="'+q.id+'">×</button></span>':"";}).join("");
+      body='<div class="chips">'+chips+'</div><div class="srch"><input type="search" autocomplete="off" placeholder="Type to search…" data-s="'+q.id+'"><div class="sres hidden" data-sr="'+q.id+'"></div></div>';
+    } else if(q.type==="data"){
+      var pl=E.mdmLevel(S), LVI=["straightforward","low","moderate","high"];
+      var pI=LVI.indexOf(pl.p), rI=LVI.indexOf(pl.r), hasData=!!(+S.notesN||+S.resultsN||+S.ordersN||S.interp||S.discussion||S.historian);
+      var matters = pI>=0 && rI>=0 && pI!==rI;
+      var hint = (pI<0||rI<0) ? "Only needed if it raises the level." : (matters ? "Can raise this visit — add what was actually reviewed or ordered." : "Not needed — it won't change this visit's level.");
+      body='<div class="dhint'+(matters?' on':'')+'">'+esc(hint)+'</div><details class="dbox"'+((matters||hasData)?' open':'')+'><summary>'+(hasData?'Edit data':'Add data')+'</summary><div class="dgrid">'+
+        dcount("notesN","Outside notes reviewed")+
+        dcount("resultsN","Results reviewed (not ordered today)")+
+        dcount("ordersN","Tests ordered today")+
+        '</div><div class="dchk">'+
+        dchk("interp","Personally read a test done elsewhere")+
+        dchk("discussion","Discussed management with an outside clinician")+
+        dchk("historian","History from someone other than the patient")+
+        '</div><div class="hint">Data level: <strong id="dataLvl"></strong></div></details>';
+    }
+    html+='<div class="q" data-qid="'+q.id+'"><div class="qt">'+esc(lbl)+'</div>'+body+'</div>';
+  });
+  building=true; try{ $("questions").innerHTML='<div class="card">'+html+'</div>'; } finally { building=false; }
+  bind(); update();
+}
+function dtext(id,l,ph){return '<label class="dl"><span>'+esc(l)+'</span><input type="text" data-t="'+id+'" value="'+esc(S[id]||"")+'" placeholder="'+esc(ph)+'"></label><div class="phiwarn hidden" data-pw="'+id+'">Remove names, dates, numbers.</div>';}
+function dchk(id,l){return '<div class="dc"><label class="chk"><input type="checkbox" data-b="'+id+'"'+(S[id]?" checked":"")+'> '+esc(l)+'</label></div>';}
+function dcount(id,l){var v=String(S[id]||"0");return '<div class="dl2"><span>'+esc(l)+'</span><span class="cnt">'+["0","1","2","3"].map(function(n){return '<button type="button" class="opt cnum'+(v===n?" sel":"")+'" data-q="'+id+'" data-v="'+n+'">'+(n==="3"?"3+":n)+'</button>';}).join("")+'</span></div>';}
+
+function bind(){
+  var root=$("questions");
+  var t27=root.querySelector("#to2027"); if(t27) t27.addEventListener("click",function(){ YEAR="2027"; paintYear(); syncTop(); build(); });
+  root.querySelectorAll(".opt:not(.tog),.pick").forEach(function(b){b.addEventListener("click",function(){
+    var q=b.dataset.q,v=b.dataset.v;
+    if(q==="enc"){ S={year:S.year,setting:S.setting,payer:S.payer}; delete $("draftNote").dataset.edited; }
+    S[q]=v; build();
+  });});
+  root.querySelectorAll(".opt.tog").forEach(function(b){b.addEventListener("click",function(){
+    var q=b.dataset.m,a=S[q]||[],v=b.dataset.v;
+    if(a.indexOf(v)>=0) a=a.filter(function(x){return x!==v;});
+    else if(v==="none") a=["none"];
+    else a=a.filter(function(x){return x!=="none";}).concat([v]);
+    S[q]=a; build();
+  });});
+  root.querySelectorAll("input[data-n]").forEach(function(i){ i.addEventListener("input",function(){S[i.dataset.n]=i.value;update();}); i.addEventListener("change",function(){S[i.dataset.n]=i.value; if(!building) schedule();}); });
+  root.querySelectorAll("input[data-b]").forEach(function(c){c.addEventListener("change",function(){S[c.dataset.b]=c.checked; build();});});
+  root.querySelectorAll("input[data-t]").forEach(function(i){i.addEventListener("input",function(){
+    var bad=hasPHI(i.value), w=root.querySelector('[data-pw="'+i.dataset.t+'"]'); if(w) w.classList.toggle("hidden",!bad);
+    S[i.dataset.t]=bad?"":i.value; update();
+  });});
+  root.querySelectorAll("button[data-rm]").forEach(function(b){b.addEventListener("click",function(){var k=b.dataset.k;S[k]=(S[k]||[]).filter(function(x){return x!==b.dataset.rm;});build();});});
+  root.querySelectorAll("button[data-rmc]").forEach(function(b){b.addEventListener("click",function(){var k=b.dataset.k;S[k]=(S[k]||[]).filter(function(x){return x!==b.dataset.rmc;});build();});});
+  root.querySelectorAll("input[data-s]").forEach(function(inp){
+    var qid=inp.dataset.s, q=Q.filter(function(x){return x.id===qid;})[0], box=root.querySelector('[data-sr="'+qid+'"]');
+    function render(){
+      var t=inp.value.trim().toLowerCase(); var res;
+      if(q.type==="search"){ var sel=q.selected(); res=q.items().filter(function(x){return sel.indexOf(x.id)<0 && (!t || x.label.toLowerCase().indexOf(t)>=0 || x.id.indexOf(t)===0);}).slice(0,8).map(function(x){return '<button type="button" data-add="'+x.id+'" data-k="'+x.kind+'">'+esc(x.label)+' <b>'+x.id+'</b></button>';}); }
+      else { var cur=S[qid]||[]; res=q.list().filter(function(c){return cur.indexOf(c[0])<0 && (!t || c[1].toLowerCase().indexOf(t)>=0);}).slice(0,8).map(function(c){return '<button type="button" data-addc="'+c[0]+'">'+esc(c[1])+'</button>';}); }
+      box.innerHTML = res.length? res.join("") : '<div class="hint" style="padding:8px">No match</div>';
+      box.classList.remove("hidden");
+      box.querySelectorAll("button[data-add]").forEach(function(b){b.addEventListener("mousedown",function(ev){ev.preventDefault();var k=b.dataset.k;S[k]=(S[k]||[]).concat([b.dataset.add]);build();});});
+      box.querySelectorAll("button[data-addc]").forEach(function(b){b.addEventListener("mousedown",function(ev){ev.preventDefault();S[qid]=(S[qid]||[]).concat([b.dataset.addc]);build();});});
+    }
+    inp.addEventListener("input",render); inp.addEventListener("focus",render);
+    inp.addEventListener("blur",function(){setTimeout(function(){box.classList.add("hidden");},150);});
+  });
+}
+
+/* ---------- Result ---------- */
+var last=null, showAllFlags=false;
+function noteHTML(t){ return esc(t).replace(/___( \(([^)]*)\))?/g,function(m,a,h){return '<mark>___</mark>'+(h?'<span class="nh"> ('+h+')</span>':'');}); }
+function update(){
+  var dl=$("dataLvl"); if(dl) dl.textContent={straightforward:"minimal",low:"limited",moderate:"moderate",high:"extensive"}[E.dataLevel(S)];
+  var r=E.compute(S); last=r;
+  $("resYear").textContent="· CPT "+S.year;
+  $("incomplete").innerHTML=r.incomplete.length?"Still need: "+r.incomplete.map(esc).join(" · "):""; $("incomplete").classList.toggle("hidden",!r.incomplete.length);
+  $("scope").classList.toggle("hidden",!r.scope); $("scope").innerHTML=r.scope?'<div class="flag">'+esc(r.scope)+'</div>':"";
+  $("codeLines").innerHTML=r.codes.length?r.codes.map(function(c){return '<div class="codeline"><span class="bigcode">'+esc(c.code)+'</span>'+(c.mods||[]).map(function(m){return '<span class="mod">-'+esc(m)+'</span>';}).join("")+(c.units?'<span class="mod units">×'+c.units+'</span>':'')+'<span class="codelabel">'+esc(c.label)+'</span></div>';}).join(""):(S.enc?'':'<div class="hint">Pick the encounter to start.</div>');
+  $("dxList").innerHTML=r.dx.map(function(d){return "<span><b>"+esc(d.code)+"</b>"+esc(d.label)+"</span>";}).join("");
+  $("why").textContent=r.why[0]||""; $("why").classList.toggle("hidden",!r.why.length);
+  $("addWrap").classList.toggle("hidden",!r.extra.length);
+  $("addList").innerHTML=r.extra.map(function(a){return '<div><span class="code">'+esc(a.code)+'</span> '+esc(a.label)+' <span class="hint">('+esc(a.req)+')</span></div>';}).join("");
+  // note
+  var note=r.note.join("\n");
+  if(!$("draftNote").dataset.edited) $("draftNote").value=note;
+  $("noteView").innerHTML=$("draftNote").value?noteHTML($("draftNote").value):'<span class="hint">Appears as you answer.</span>';
+  $("noteCard").classList.toggle("hidden",!S.enc);
+  // next
+  $("nextWrap").classList.toggle("hidden",!r.next);
+  if(r.next){
+    $("nextCode").textContent=r.next.code;
+    var h="";
+    if(r.next.time) h+='<div class="nl"><b>Time:</b> '+r.next.time+'+ min'+(r.next.note?' ('+esc(r.next.note)+')':'')+'</div>';
+    if(r.next.items.length){ h+='<div class="nl"><b>'+(r.next.time?'Or ':'')+(r.next.need===2?'any 2 of':'any 1 of')+':</b></div><ul>'+r.next.items.map(function(x){return "<li>"+esc(x)+"</li>";}).join("")+'</ul>'; }
+    $("nextBody").innerHTML=h;
+  }
+  // flags
+  var fl=r.flags; $("flagsWrap").classList.toggle("hidden",!fl.length);
+  $("flagsList").innerHTML=(showAllFlags?fl:fl.slice(0,2)).map(function(f){return '<div class="flag">'+esc(f)+'</div>';}).join("");
+  $("moreFlags").classList.toggle("hidden",fl.length<=2||showAllFlags);
+  // mobile bar
+  var real=r.codes.filter(function(c){return c.code!=="—";});
+  $("mbarText").innerHTML=real.length?"<b>"+esc(real.map(function(c){return c.code+(c.mods||[]).map(function(m){return "-"+m;}).join("");}).join("  "))+"</b>":(r.codes.length?"No separate code":"Answer the questions");
+  updateMail();
+}
+$("moreFlags").addEventListener("click",function(){showAllFlags=true;update();});
+
+/* Edit / export */
+$("editBtn").addEventListener("click",function(){var ed=!$("draftNote").classList.contains("hidden");if(ed){$("noteView").innerHTML=noteHTML($("draftNote").value);$("draftNote").classList.add("hidden");$("noteView").classList.remove("hidden");this.textContent="Edit";}else{$("draftNote").classList.remove("hidden");$("noteView").classList.add("hidden");this.textContent="Done";}});
+$("draftNote").addEventListener("input",function(){$("draftNote").dataset.edited="1";updateMail();});
+function codesText(){var r=last||{codes:[],dx:[]};return r.codes.map(function(c){return c.code+(c.mods||[]).map(function(m){return "-"+m;}).join("")+(c.units?" x"+c.units:"")+"  "+c.label;}).join("\n")+(r.dx.length?"\nDx: "+r.dx.map(function(d){return d.code;}).join(", "):"");}
+function summaryText(){return [DISCLAIMER,"","CODES (CPT "+S.year+")",codesText(),"","NOTE",$("draftNote").value].join("\n");}
+function copy(t){if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){toast("Copied");},function(){fb(t);});}else fb(t);}
+function fb(t){var a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();try{document.execCommand("copy");toast("Copied");}catch(e){toast("Copy failed");}a.remove();}
+$("copyCodesBtn").addEventListener("click",function(){copy(codesText());});
+$("copyNoteBtn").addEventListener("click",function(){copy($("draftNote").value);});
+function updateMail(){var b=summaryText();if(b.length>1800)b=b.slice(0,1800)+"\n...";$("mailBtn").href="mailto:?subject="+encodeURIComponent("Coding Aid (CPT "+S.year+") - no PHI")+"&body="+encodeURIComponent(b);}
+$("mbarBtn").addEventListener("click",function(){$("rcol").scrollIntoView({behavior:"smooth"});});
+$("resetBtn").addEventListener("click",function(){S={};showAllFlags=false;delete $("draftNote").dataset.edited;syncTop();build();window.scrollTo({top:0,behavior:"smooth"});});
+["setting","payer"].forEach(function(id){$(id).addEventListener("change",function(){var prev=S.setting;syncTop();if(id==="setting"&&prev!==S.setting){S={year:S.year,setting:S.setting,payer:S.payer};delete $("draftNote").dataset.edited;}build();});});
+syncTop(); build();
+})();
+
+</script>
+<script>
+if("serviceWorker" in navigator && location.protocol==="https:"){
+  window.addEventListener("load",function(){
+    navigator.serviceWorker.register("sw.js").then(function(reg){
+      reg.addEventListener("updatefound",function(){ var w=reg.installing; if(!w) return;
+        w.addEventListener("statechange",function(){ if(w.state==="activated" && navigator.serviceWorker.controller){ location.reload(); } }); });
+      reg.update();
+    }).catch(function(){});
+  });
+}
+</script>
+</body>
+</html>
