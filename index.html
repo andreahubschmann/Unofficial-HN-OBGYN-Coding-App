@@ -543,7 +543,7 @@ body{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-ri
         <li><strong>Minor procedures (under 5 minutes):</strong> the teaching physician must be present for the entire procedure.</li>
         <li><strong>Deliveries:</strong> the teaching physician must be present for the delivery to bill the delivery service.</li>
         <li><strong>Primary care exception (GE):</strong> applies only at qualifying sites and to a limited set of lower-level E/M services; verify site eligibility with compliance before use.</li>
-        <li><strong>Assistant at surgery:</strong> Medicare generally does not pay a physician assistant-at-surgery in a teaching hospital when a qualified resident is available; modifier 82 requires documentation that no qualified resident was available.</li>
+        <li><strong>Assistant at surgery:</strong> Medicare generally does not pay a physician assistant-at-surgery in a teaching hospital when a qualified resident is available; modifier 82 requires documentation that no qualified resident was available. The operative note should also name the assistant, state why an assistant was needed, and describe what the assistant did.</li>
       </ul>
       <p class="src">Source: CMS Medicare Claims Processing Manual, Chapter 12, Section 100 (Teaching Physician Services); CMS MLN “Teaching Physicians, Interns &amp; Residents Guidelines”; CPT Appendix A (Modifiers). Confirm Holy Name compliance policy for resident billing.</p>
     </div>
@@ -1075,7 +1075,7 @@ var SURG_X = {
  x_eua:{label:"Exam under anesthesia",bundled:"Exam under anesthesia is included in the surgery."},
  x_dc:{label:"D&C",bundled:"D&C with hysteroscopy or miscarriage management is included."},
  x_22:{label:"Substantially harder or longer than usual",note:"Increased procedural work: ___ (reason, e.g., dense adhesions, BMI), adding ___ minutes."},
- x_asst:{label:"Assistant surgeon (not a resident)",note:"Assistant surgeon: ___; no qualified resident available because ___."}
+ x_asst:{label:"Assistant surgeon (not a resident)",note:"Assistant surgeon: ___ (name, credentials). Assistant needed because ___ (clinical reason). Assistant performed ___ (e.g., exposure, retraction, hemostasis, closure). No qualified resident available because ___."}
 };
 function surgExtraOpts(s){
   var ids=(s.surgs||[]).map(surgById).filter(Boolean), ap={};
